@@ -27,11 +27,11 @@ function App() {
             <Route path='login' element={<Login />} />
             <Route path='register' element={<Register />} />
             <Route path='detail' element={<DetailCart />} />
+            <Route path='post' element={<Post />} />
           </Route>
 
           <Route path='/admin' element={<SecondLayout />} >
             <Route index element={<Dashboard />} />
-            <Route path='post' element={<Post />} />
             <Route path='user' element={<User />} />
             <Route path='category' element={<Category />} />
           </Route>
