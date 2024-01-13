@@ -24,7 +24,7 @@ const Login = () => {
                         </div>
                         <Button />
                         <div className='text-sm py-1'>
-                            <p>Dont't have an accoount ? <Link className='text-blue-500'>Register !</Link></p>
+                            <p>Dont't have an accoount ? <Link to={'/register'} className='text-blue-500'>Register !</Link></p>
                         </div>
                     </div>
                 </form>
