@@ -10,7 +10,8 @@ const Header = () => {
 
                 </div>
                 <div className='border  py-1 px-2 rounded-full border-white hover:text-black hover:bg-white'>
-                    <Link to={'/login'}>Login</Link>
+                    {/* <Link to={'/login'}>Login</Link> */}
+                    <Link to={'/admin'}>Admin</Link>
                 </div>
             </section>
         </header>
