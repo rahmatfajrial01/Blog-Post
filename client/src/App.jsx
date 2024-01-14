@@ -5,6 +5,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import SecondLayout from './components/Admin/SecondLayout'
 import MainLayouts from './components/MainLayouts'
+import ScrollToTop from './components/ScrollToTop'
 import Category from './pages/Admin/Category'
 import Dashboard from './pages/Admin/Dashboard'
 import User from './pages/Admin/User'
@@ -20,6 +21,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path='/' element={<MainLayouts />}>
             <Route index element={<Home />} />
@@ -29,7 +31,6 @@ function App() {
             <Route path='detail' element={<DetailCart />} />
             <Route path='post' element={<Post />} />
           </Route>
-
           <Route path='/admin' element={<SecondLayout />} >
             <Route index element={<Dashboard />} />
             <Route path='user' element={<User />} />
