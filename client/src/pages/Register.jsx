@@ -1,12 +1,18 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Body from '../components/Body'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { registerUser, resetState } from '../features/user/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { Navigate } from "react-router-dom";
 
 const Register = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const authState = useSelector(state => state.auth)
 
     const Schema = Yup.object().shape({
         username: Yup.string().required("username is required"),
@@ -24,9 +30,23 @@ const Register = () => {
         },
         validationSchema: Schema,
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            dispatch(registerUser(values))
+            // alert(JSON.stringify(values, null, 2));
+
         },
     })
+
+    useEffect(() => {
+        if (authState.createdUser !== null && authState.isError === false) {
+            navigate('/login')
+        }
+        dispatch(resetState())
+    }, [authState.createdUser])
+
+
+
+
+
 
     return (
         <Body   >

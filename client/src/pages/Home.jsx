@@ -10,9 +10,9 @@ const Home = () => {
             <div className='bg-black -mt-8'>
                 <div className='container mx-auto text-white min-h-[50vh]'>
 
-                    <div className=' flex'>
+                    <div className='flex'>
                         <div className=' md:w-1/2 min-h-[50vh] flex  justify-center items-center'>
-                            <div className='flex flex-col gap-10 justify-center px-10 '>
+                            <div className='flex flex-col lg:gap-10 gap-10  md:gap-7 justify-center px-10 '>
                                 <h1 className='text-2xl font-semibold'>Welcome</h1>
                                 <p>Start your blog today and join a community of writers and readers who are passionate about sharing their stories and ideas. We offer everything you need to get starred, from helpful tips and tutorials</p>
                                 <div >
@@ -23,8 +23,8 @@ const Home = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='w-1/2 min-h-[50vh] md:flex hidden justify-center items-center px-10 '>
-                            <img className='h-[50vh] w-full ' src={images.Hero} alt="" />
+                        <div className='w-1/2 min-h-[50vh] md:flex hidden justify-end items-center pe-10 '>
+                            <img className='w-full xl:w-[80%]' src={images.Hero} alt="" />
                         </div>
                     </div>
                 </div>

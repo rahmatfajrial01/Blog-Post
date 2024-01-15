@@ -1,7 +1,3 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import SecondLayout from './components/Admin/SecondLayout'
 import MainLayouts from './components/MainLayouts'
@@ -16,6 +12,9 @@ import NotFound from './pages/NotFound'
 import Post from './pages/Post'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
 
   return (
@@ -38,6 +37,19 @@ function App() {
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ToastContainer
+          className={'mt-12'}
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </BrowserRouter>
     </>
   )

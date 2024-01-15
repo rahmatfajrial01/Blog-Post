@@ -1,12 +1,25 @@
 import { useFormik } from 'formik'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Body from '../components/Body'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import * as yup from 'yup';
+import { loginUser } from '../features/user/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+
 
 const Login = () => {
+
+    const authState = useSelector(state => state.auth)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    // if (state.isSuccess = true) {
+    //     // localStorage.setItem("user", JSON.stringify(action.payload.token))
+    //     toast.info("User Login Successfully")
+    // }
 
     const Schema = yup.object({
         email: yup.string().nullable().email("email shoul be valid").required('email is required'),
@@ -20,9 +33,18 @@ const Login = () => {
         },
         validationSchema: Schema,
         onSubmit: values => {
-            alert(JSON.stringify(values));
+            // alert(JSON.stringify(values));
+            dispatch(loginUser(values))
         },
     });
+
+    useEffect(() => {
+        if (authState.user !== null && authState.isError === false) {
+            navigate('/')
+        }
+    }, [authState])
+
+
 
     return (
         <Body>
