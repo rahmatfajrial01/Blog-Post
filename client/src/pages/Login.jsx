@@ -9,7 +9,6 @@ import { loginUser } from '../features/user/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 
-
 const Login = () => {
 
     const authState = useSelector(state => state.auth)
@@ -40,11 +39,10 @@ const Login = () => {
 
     useEffect(() => {
         if (authState.user !== null && authState.isError === false) {
+            localStorage.setItem("user", JSON.stringify({ token: authState.user.token }))
             navigate('/')
         }
     }, [authState])
-
-
 
     return (
         <Body>

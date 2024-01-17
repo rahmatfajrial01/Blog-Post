@@ -29,7 +29,6 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-
             <div className='min-h-[50vh] container mx-auto'>
                 <div className='flex justify-between mt-5 '>
                     <span>category 1</span>
@@ -48,14 +47,11 @@ const Home = () => {
                     <Cart />
                     <Cart />
                     <Cart />
-
                 </div>
                 <div className='flex justify-center my-5'>
                     <span className='border rounded-xl  p-3'>more </span>
                 </div>
             </div>
-
-
         </>
     )
 }

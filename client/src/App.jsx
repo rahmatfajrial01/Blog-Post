@@ -14,6 +14,8 @@ import Profile from './pages/Profile'
 import Register from './pages/Register'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { PrivateRoutes } from './routing/privateRoutes'
+import { OpenRoutes } from './routing/openRoutes'
 
 function App() {
 
@@ -24,13 +26,13 @@ function App() {
         <Routes>
           <Route path='/' element={<MainLayouts />}>
             <Route index element={<Home />} />
-            <Route path='profile' element={<Profile />} />
-            <Route path='login' element={<Login />} />
-            <Route path='register' element={<Register />} />
             <Route path='detail' element={<DetailCart />} />
-            <Route path='post' element={<Post />} />
+            <Route path='profile' element={<PrivateRoutes><Profile /></PrivateRoutes>} />
+            <Route path='post' element={<PrivateRoutes><Post /></PrivateRoutes>} />
+            <Route path='login' element={<OpenRoutes><Login /></OpenRoutes>} />
+            <Route path='register' element={<OpenRoutes><Register /></OpenRoutes>} />
           </Route>
-          <Route path='/admin' element={<SecondLayout />} >
+          <Route path='/admin' element={<PrivateRoutes><SecondLayout /></PrivateRoutes>}>
             <Route index element={<Dashboard />} />
             <Route path='user' element={<User />} />
             <Route path='category' element={<Category />} />

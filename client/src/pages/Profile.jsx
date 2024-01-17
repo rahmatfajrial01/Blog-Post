@@ -12,8 +12,9 @@ import { profileUser } from '../features/user/userSlice'
 
 const Profile = () => {
     const userState = useSelector(state => state?.auth?.user)
-    // console.log(userState)
-
+    const profile = useSelector(state => state?.auth?.profile)
+    // const token = useSelector(state => state?.user.userInfo.token)
+    console.log(userState.token)
 
     const dispatch = useDispatch()
     // const navigate = useNavigate()
@@ -27,10 +28,11 @@ const Profile = () => {
     });
 
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            username: userState?.username,
-            email: userState?.email,
-            password: userState?.password,
+            username: profile?.username || "",
+            email: profile?.email || "",
+            password: profile?.password || "",
             Cpassword: '',
         },
         validationSchema: Schema,
@@ -41,9 +43,9 @@ const Profile = () => {
         },
     })
 
-    // useEffect(() => {
-    //     dispatch(profileUser())
-    // }, [])
+    useEffect(() => {
+        dispatch(profileUser(userState.token))
+    }, [userState.token])
 
     return (
         <Body   >

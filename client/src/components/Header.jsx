@@ -4,14 +4,16 @@ import { CgProfile } from "react-icons/cg";
 import { Menu } from '@headlessui/react'
 import { useSelector, useDispatch } from 'react-redux';
 import { IoIosLogOut } from "react-icons/io";
-import { logoutUser, resetState } from '../features/user/userSlice';
-
-
+import { logoutUser, profileUser, resetState } from '../features/user/userSlice';
 
 const Header = () => {
     // const [isOpen, setIsOpen] = useState(false)
-    const authState = useSelector(state => state.auth)
     const dispatch = useDispatch()
+    const authState = useSelector(state => state?.auth)
+
+    const userState = useSelector(state => state?.auth?.user)
+    const profile = useSelector(state => state?.auth?.profile)
+    console.log(authState?.user)
 
     const handleLogout = () => {
         // localStorage.clear()
@@ -22,6 +24,10 @@ const Header = () => {
         }, 100);
         dispatch(resetState())
     }
+
+    useEffect(() => {
+        dispatch(profileUser(userState?.token))
+    }, [userState?.token])
 
     return (
         <header className='bg-black text-white sticky top-0 z-50'>
@@ -48,17 +54,20 @@ const Header = () => {
                         </div>
                     </div> */}
                     {
-                        authState.user === null
+                        authState?.user === null
                             ?
                             <Link className='border-2  py-1 px-5 rounded-full border-white hover:text-black hover:bg-white transition-all' to={'/login'}>Login</Link>
                             :
                             <div className='relative'>
                                 <Menu>
                                     <Menu.Button className='flex items-center text-3xl'><CgProfile /></Menu.Button>
-                                    <Menu.Items className='absolute bg-white text-black right-0 top-12 p-2 rounded-xl flex flex-col text-end border'>
-                                        <Menu.Item>
-                                            <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/admin'}>Dashboard</Link>
-                                        </Menu.Item>
+                                    <Menu.Items className='absolute w-max bg-white text-black right-0 top-12 p-2 rounded-xl flex flex-col text-end border'>
+                                        {
+                                            profile?.admin &&
+                                            <Menu.Item>
+                                                <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/admin'}>Dashboard</Link>
+                                            </Menu.Item>
+                                        }
                                         <Menu.Item>
                                             <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/profile'}>Profile</Link>
                                         </Menu.Item>
