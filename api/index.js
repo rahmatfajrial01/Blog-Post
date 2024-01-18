@@ -15,9 +15,12 @@ const PORT = process.env.PORT
 connectDatabase()
 
 const authRoutes = require('./src/routes/userRoutes.js')
+const postCategoriesRoutes = require('./src/routes/postCategoriesRoutes')
 const { notFound, errorHandler } = require("./src/middlewares/errorHandler")
 
 app.use('/api/user', authRoutes);
+app.use('/api/post-categories', postCategoriesRoutes);
+
 
 app.use(notFound)
 app.use(errorHandler)

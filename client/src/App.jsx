@@ -5,6 +5,7 @@ import ScrollToTop from './components/ScrollToTop'
 import Category from './pages/Admin/Category'
 import Dashboard from './pages/Admin/Dashboard'
 import User from './pages/Admin/User'
+import ListPost from './pages/Admin/ListPost'
 import DetailCart from './pages/DetailCart'
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -36,6 +37,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path='user' element={<User />} />
             <Route path='category' element={<Category />} />
+            <Route path='list-post' element={<ListPost />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

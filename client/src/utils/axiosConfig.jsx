@@ -6,7 +6,7 @@ export const base_url = "http://localhost:5000/api/"
 
 // console.log(localStorage.getItem("user"))
 
-// const Token = getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
+// const Token = getTokenFromLocalStorage !== null ? getTokenFromLocalStorage : ""
 // console.log(Token)
 
 // export const config = {
@@ -23,3 +23,6 @@ export const base_url = "http://localhost:5000/api/"
 //         Authorization: `Bearer ${Token}`,
 //     },
 // };
+
+
+

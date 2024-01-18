@@ -7,7 +7,7 @@ const User = () => {
         <section className='w-full pt-5 px-5 bg-slate-50'>
             <div className='mb-5 px-5'>
                 <p>
-                    Dashboard / User
+                    Dashboard / Post
                 </p>
             </div>
             <div className='px-5  rounded-xl'>

@@ -6,7 +6,7 @@ const Input = (props) => {
         <div className='flex flex-col'>
             <label htmlFor={name}>{label}</label>
             <input
-                className='border p-2 rounded-xl'
+                className='border p-2 rounded-xl bg-white'
                 type={type}
                 id={name}
                 placeholder='...'
