@@ -34,6 +34,14 @@ export const logoutUser = createAsyncThunk("auth/logout", (thunkApi) => {
     }
 })
 
+export const getAllUser = createAsyncThunk("auth/all-user", (thunkApi) => {
+    try {
+        return authService.getAllUser()
+    } catch (error) {
+        return thunkApi.rejectWithValue(error)
+    }
+})
+
 export const resetState = createAction("Reset_all")
 
 const getTokenFromLocalStorage = localStorage.getItem("user")
@@ -48,6 +56,7 @@ const initialState = {
     isLoading: "",
     message: "",
     profile: "",
+    allUser: "",
 
 }
 
@@ -135,6 +144,21 @@ export const authSlice = createSlice({
                 // if (state.isError === true) {
                 //     toast.error(action.payload.response.data.message)
                 // }
+            })
+            .addCase(getAllUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getAllUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.allUser = action.payload;
+            })
+            .addCase(getAllUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
             })
             .addCase(resetState, () => initialState)
     }

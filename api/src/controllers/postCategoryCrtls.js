@@ -35,6 +35,16 @@ const getAllPostCategories = async (req, res, next) => {
     }
 };
 
+const getAPostCategory = async (req, res) => {
+    const { id } = req.params
+    try {
+        const getPostCategories = await PostCategories.findById(id);
+        res.json(getPostCategories)
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
 const updatePostCategory = async (req, res, next) => {
     try {
         const { title } = req.body;
@@ -64,10 +74,10 @@ const deletePostCategory = async (req, res, next) => {
     try {
         const categoryId = req.params.postCategoryId;
 
-        await Post.updateMany(
-            { categories: { $in: [categoryId] } },
-            { $pull: { categories: categoryId } }
-        );
+        // await Post.updateMany(
+        //     { categories: { $in: [categoryId] } },
+        //     { $pull: { categories: categoryId } }
+        // );
 
         await PostCategories.deleteOne({ _id: categoryId });
 
@@ -80,5 +90,5 @@ const deletePostCategory = async (req, res, next) => {
 };
 
 module.exports = {
-    createPostCategory, getAllPostCategories, updatePostCategory, deletePostCategory
+    createPostCategory, getAllPostCategories, updatePostCategory, deletePostCategory, getAPostCategory
 }

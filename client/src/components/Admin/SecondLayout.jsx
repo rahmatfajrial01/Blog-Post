@@ -14,10 +14,7 @@ const SecondLayout = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(profileUser(userState?.token))
-    }, [userState?.token])
-
-    // if (!profile?.admin && isError === false)
-    //     return <Navigate to='*' replace={true} />
+    }, [])
 
     return (
         <>

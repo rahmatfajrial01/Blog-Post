@@ -1,43 +1,57 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
-import { getAllPostCategories, createPostCategories } from '../../features/postCategory/postCategorySlice'
+import { getAllPostCategories, createPostCategories, deletePostCategories, getAPostCategory, updatePostCategories } from '../../features/postCategory/postCategorySlice'
 import { useFormik } from 'formik'
 import * as yup from 'yup';
-
 
 const Category = () => {
 
     const token = useSelector(state => state?.auth?.user?.token)
     const postCategory = useSelector(state => state?.postCategory?.postCategories)
-    const postCategoryCreated = useSelector(state => state?.postCategory?.postCategoryCreated)
+    const postCategoryAction = useSelector(state => state?.postCategory)
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(getAllPostCategories())
-    }, [postCategoryCreated])
-
+    }, [
+        postCategoryAction?.postCategoryCreated,
+        postCategoryAction?.postCategoryDeleted,
+        postCategoryAction?.postCategoryUpdated
+    ])
 
     const Schema = yup.object({
         title: yup.string().required('Category is required'),
     });
-
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            title: '',
+            title: postCategoryAction?.getACategory?.title || ''
         },
         validationSchema: Schema,
-        onSubmit: values => {
+        onSubmit: (values, { resetForm }) => {
             // alert(JSON.stringify(values, null, 2));
-            const data = { token, values }
-            dispatch(createPostCategories(data))
+            if (postCategoryAction?.getACategory) {
+                const data = { token, values, id: postCategoryAction.getACategory._id }
+                dispatch(updatePostCategories(data))
+            } else {
+                const data = { token, values }
+                dispatch(createPostCategories(data))
+                resetForm()
+            }
         },
     });
 
+    const deleteAPost = (id) => {
+        const data = { token, id }
+        dispatch(deletePostCategories(data))
+    }
 
+    const getAId = (id) => {
+        dispatch(getAPostCategory(id))
+    }
 
     return (
         <section className='w-full pt-5 px-5 bg-slate-50'>
@@ -51,7 +65,7 @@ const Category = () => {
                     <div className="">
                         <div className="flex gap-16 ">
                             <form onSubmit={formik.handleSubmit} className='w-1/2 flex' >
-                                <div className='w-full me-1'>
+                                <div className='w-full me-1 relative'>
                                     <Input
                                         type="text"
                                         name="title"
@@ -59,9 +73,12 @@ const Category = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                     />
-                                    <p className='text-red-500'>
-                                        {formik.touched.title && formik.errors.title}
-                                    </p>
+                                    <span className='flex gap-2 absolute bg-white px-2  rounded-xl'>
+                                        <p className='text-red-500'>
+                                            {formik.touched.title && formik.errors.title}
+                                        </p>
+                                        {formik.touched.title && formik.errors.title ? <button onClick={formik.resetForm}>Cancel</button> : ""}
+                                    </span>
                                 </div>
                                 <span>
                                     <Button />
@@ -110,16 +127,14 @@ const Category = () => {
                                                     </p>
                                                 </td>
                                                 <td className="flex gap-2 px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                                    <button className='bg-green-500 hover:opacity-85 py-1 px-2 rounded-xl text-white'>Edit</button>
-                                                    <button className='bg-red-500 hover:opacity-85 py-1 px-2 rounded-xl text-white'>Delete</button>
+                                                    <button onClick={() => { getAId(item?._id) }} className='bg-green-500 hover:opacity-85 py-1 px-2 rounded-xl text-white'>Edit</button>
+                                                    <button onClick={() => { deleteAPost(item?._id) }} className='bg-red-500 hover:opacity-85 py-1 px-2 rounded-xl text-white'>Delete</button>
                                                 </td>
                                             </tr>
-
                                         )
                                     }
                                     )
                                 }
-
                             </tbody>
                         </table>
                         {/* <div class="flex flex-col items-center px-5 py-5 bg-white xs:flex-row xs:justify-between">
@@ -152,10 +167,6 @@ const Category = () => {
                         </div> */}
                     </div>
                 </div>
-
-
-
-
             </div>
         </section >
     )

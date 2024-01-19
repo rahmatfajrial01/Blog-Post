@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PrivateRoutes } from './routing/privateRoutes'
 import { OpenRoutes } from './routing/openRoutes'
 
+
 function App() {
 
   return (
@@ -44,7 +45,7 @@ function App() {
         <ToastContainer
           className={'mt-12'}
           position="top-right"
-          autoClose={5000}
+          autoClose={2000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick

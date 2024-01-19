@@ -1,6 +1,20 @@
 import axios from 'axios';
 import { base_url } from '../../Utils/axiosConfig';
 
+
+const getAllUser = async () => {
+    // const config = {
+    //     headers: {
+    //         Authorization: `Bearer ${token}`,
+    //         Accept: "application/json",
+    //     },
+    // };
+    const response = await axios.get(`${base_url}user/`)
+    if (response.data) {
+        return response.data
+    }
+}
+
 const register = async (userData) => {
     const response = await axios.post(`${base_url}user/register`, userData)
     if (response.data) {
@@ -36,5 +50,6 @@ export const authService = {
     register,
     login,
     profile,
-    logout
+    logout,
+    getAllUser
 }

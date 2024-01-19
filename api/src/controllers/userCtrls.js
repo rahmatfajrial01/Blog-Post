@@ -76,8 +76,19 @@ const userProfile = async (req, res, next) => {
     }
 };
 
+const getAllUser = async (req, res, next) => {
+    try {
+        const allUser = await User.find({}).select('-password');
+        return res.json(allUser);
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
-    userProfile
+    userProfile,
+    getAllUser
 }
+
