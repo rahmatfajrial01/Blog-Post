@@ -16,9 +16,11 @@ connectDatabase()
 
 const authRoutes = require('./src/routes/userRoutes.js')
 const postCategoriesRoutes = require('./src/routes/postCategoriesRoutes')
+const postRoutes = require('./src/routes/postRoutes.js')
 const { notFound, errorHandler } = require("./src/middlewares/errorHandler")
 
 app.use('/api/user', authRoutes);
+app.use('/api/post', postRoutes);
 app.use('/api/post-categories', postCategoriesRoutes);
 
 

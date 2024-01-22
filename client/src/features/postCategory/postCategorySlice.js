@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { toast } from "react-toastify"
 import { postCategoriesService } from "./postCategoryService"
 
 export const getAllPostCategories = createAsyncThunk("post/get-all-post-categories", async (thunkApi) => {
@@ -77,6 +78,9 @@ export const postSliceCategories = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.postCategoryCreated = action.payload;
+                if (state.isSuccess === true) {
+                    toast.success("Category Created Successfully")
+                }
             })
             .addCase(createPostCategories.rejected, (state, action) => {
                 state.isLoading = false;

@@ -1,4 +1,4 @@
-const PostCategories = require("../models/PostCategories");
+const PostCategories = require("../models/postCategories");
 // const Post = require("../models/PostModels");
 
 
