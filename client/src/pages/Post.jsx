@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { createPost } from '../features/post/postSlice';
+import { createPost, resetState } from '../features/post/postSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -13,10 +13,14 @@ import MultiSelectTagDropdown from '../components/MultiSelectTagDropdown';
 // import { getAllPostCategories } from '../features/postCategories/postCategoriesSlice';
 // import { getAllPostCategory } from '../features/postCategories/postCategoriesServis';
 import { filterCategories } from '../utils/multiSelectTagUtils';
+import { useNavigate } from 'react-router-dom';
 
 const Post = () => {
     const token = useSelector(state => state?.auth?.user?.token)
+    const postCreated = useSelector(state => state?.post?.postCreated)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    console.log(postCreated)
 
     const promiseOptions = async (inputValue) => {
         const categoriesData = await getAllPostCategory()
@@ -49,6 +53,8 @@ const Post = () => {
             data.append('categories', JSON.stringify(values.categories))
             const dataPost = { token, data }
             dispatch(createPost(dataPost))
+            if (postCreated)
+                navigate('/list-post')
         },
     })
 
@@ -59,6 +65,12 @@ const Post = () => {
         formik.setFieldValue('photo', e.currentTarget.files[0]);
     };
 
+    useEffect(() => {
+        if (postCreated) {
+            navigate('/list-post')
+        }
+        dispatch(resetState())
+    }, [postCreated])
 
     return (
         <section className='pt-5'>

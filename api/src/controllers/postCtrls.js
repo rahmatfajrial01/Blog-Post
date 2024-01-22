@@ -2,7 +2,8 @@ const asyncHandler = require('express-async-handler');
 const { uploadPicture } = require('../middlewares/uploadPicture');
 const Post = require("../models/PostModels");
 // const { fileRemover } = require('../utils/fileRemover');
-const { v4 } = require("uuid")
+const { v4 } = require("uuid");
+const { fileRemover } = require('../utils/fileRemover');
 
 const createPost = asyncHandler(async (req, res) => {
     try {
@@ -25,6 +26,25 @@ const createPost = asyncHandler(async (req, res) => {
     }
 });
 
+const deletePost = async (req, res, next) => {
+    try {
+        const post = await Post.findOneAndDelete({ slug: req.params.slug });
+
+        if (post.photo) {
+            fileRemover(post.photo);
+        }
+        if (!post) {
+            const error = new Error("Post aws not found");
+            return next(error);
+        }
+
+        return res.json({
+            message: "Post is successfully deleted",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 
 const getAllPosts = async (req, res, next) => {
     try {
@@ -37,5 +57,6 @@ const getAllPosts = async (req, res, next) => {
 
 module.exports = {
     createPost,
-    getAllPosts
+    getAllPosts,
+    deletePost
 }

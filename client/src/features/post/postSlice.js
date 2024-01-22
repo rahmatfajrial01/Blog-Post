@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit"
 import { postService } from "./postService"
 import { toast } from 'react-toastify';
 
@@ -18,6 +18,17 @@ export const getAllPosts = createAsyncThunk(
             return thunkApi.rejectWithValue(error)
         }
     })
+
+export const deletePost = createAsyncThunk(
+    "post/delete-post", async (data, thunkApi) => {
+        try {
+            return await postService.deletePost(data)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    })
+
+export const resetState = createAction("resetState")
 
 const initialState = {
     isError: "",
@@ -66,6 +77,26 @@ export const postSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
             })
+            .addCase(deletePost.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deletePost.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.deletedPost = action.payload;
+                if (state.isSuccess === true) {
+                    toast.success("Post Deleted Successfully")
+                }
+            })
+            .addCase(deletePost.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            })
+            .addCase(resetState, () => initialState)
+
     }
 })
 

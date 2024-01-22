@@ -1,7 +1,8 @@
 const asyncHandler = require('express-async-handler');
+const { uploadPicture } = require('../middlewares/uploadPicture');
 // const { uploadPicture } = require('../middlewares/uploadPictureMIddleware');
 const User = require("../models/userModels");
-// const { fileRemover } = require('../utils/fileRemover');
+const { fileRemover } = require('../utils/fileRemover');
 
 const registerUser = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
@@ -85,10 +86,99 @@ const getAllUser = async (req, res, next) => {
     }
 };
 
+const updateProfile = async (req, res, next) => {
+    try {
+        let user = await User.findById(req.user._id);
+
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        user.username = req.body.username || user.username;
+        user.email = req.body.email || user.email;
+        if (req.body.password && req.body.password.length < 5) {
+            throw new Error("Password length must be at least 5 character");
+        } else if (req.body.password) {
+            user.password = req.body.password;
+        }
+
+        const updatedUserProfile = await user.save();
+
+        res.json({
+            _id: updatedUserProfile._id,
+            avatar: updatedUserProfile.avatar,
+            username: updatedUserProfile.username,
+            email: updatedUserProfile.email,
+            // verified: updatedUserProfile.verified,
+            admin: updatedUserProfile.admin,
+            token: await updatedUserProfile.generateJWT(),
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const updateProfilePicture = async (req, res, next) => {
+    try {
+        const upload = uploadPicture.single("profilePicture");
+
+        upload(req, res, async function (err) {
+            if (err) {
+                const error = new Error(
+                    "An unknown error occured when uploading " + err.message
+                );
+                next(error);
+            } else {
+                // every thing went well
+                if (req.file) {
+                    let filename;
+                    let updatedUser = await User.findById(req.user._id);
+                    filename = updatedUser.avatar;
+                    if (filename) {
+                        fileRemover(filename);
+                    }
+                    updatedUser.avatar = req.file.filename;
+                    await updatedUser.save();
+                    res.json({
+                        _id: updatedUser._id,
+                        avatar: updatedUser.avatar,
+                        // username: updatedUser.username,
+                        // email: updatedUser.email,
+                        // verified: updatedUser.verified,
+                        // admin: updatedUser.admin,
+                        // token: await updatedUser.generateJWT(),
+                    });
+                } else {
+                    let filename;
+                    let updatedUser = await User.findById(req.user._id);
+                    filename = updatedUser.avatar;
+                    updatedUser.avatar = "";
+                    await updatedUser.save();
+                    fileRemover(filename);
+                    res.json({
+                        _id: updatedUser._id,
+                        avatar: updatedUser.avatar,
+                        // username: updatedUser.username,
+                        // email: updatedUser.email,
+                        // verified: updatedUser.verified,
+                        // admin: updatedUser.admin,
+                        // token: await updatedUser.generateJWT(),
+                    });
+                }
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
 module.exports = {
     registerUser,
     loginUser,
     userProfile,
-    getAllUser
+    getAllUser,
+    updateProfile,
+    updateProfilePicture
 }
 

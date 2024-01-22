@@ -4,6 +4,7 @@ import Button from '../../components/Button'
 import Input from '../../components/Input'
 import { getAllUser } from '../../features/user2/userSlice'
 import { CgProfile } from "react-icons/cg";
+import { stables } from '../../constants/stables'
 
 const User = () => {
 
@@ -80,7 +81,9 @@ const User = () => {
                                                 <div className="flex items-center">
                                                     <div className="flex-shrink-0">
                                                         <a href="#" className="relative block">
-                                                            <CgProfile className='text-3xl' />
+                                                            {
+                                                                item?.avatar ? <img className='w-14 h-14 object-cover rounded-full' src={stables + item?.avatar} alt="" /> : <CgProfile className='text-6xl' />
+                                                            }
                                                         </a>
                                                     </div>
                                                     <div className="ml-3">

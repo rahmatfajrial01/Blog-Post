@@ -1,20 +1,6 @@
 import axios from 'axios';
 import { base_url } from '../../Utils/axiosConfig';
 
-
-const getAllUser = async () => {
-    // const config = {
-    //     headers: {
-    //         Authorization: `Bearer ${token}`,
-    //         Accept: "application/json",
-    //     },
-    // };
-    const response = await axios.get(`${base_url}user/`)
-    if (response.data) {
-        return response.data
-    }
-}
-
 const register = async (userData) => {
     const response = await axios.post(`${base_url}user/register`, userData)
     if (response.data) {
@@ -42,6 +28,32 @@ const profile = async (token) => {
     }
 }
 
+const updateUser = async (data) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${data.token}`,
+            Accept: "application/json",
+        },
+    };
+    const response = await axios.put(`${base_url}user/update-profile`, data.values, config)
+    if (response.data) {
+        return response.data
+    }
+}
+
+const updateUserProfile = async (data) => {
+    const config = {
+        headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${data.token}`,
+        },
+    };
+    const response = await axios.put(`${base_url}user/update-profile-picture`, data.values, config)
+    if (response.data) {
+        return response.data
+    }
+}
+
 const logout = () => {
     localStorage.clear()
 }
@@ -51,5 +63,6 @@ export const authService = {
     login,
     profile,
     logout,
-    getAllUser
+    updateUser,
+    updateUserProfile
 }

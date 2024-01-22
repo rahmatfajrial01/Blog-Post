@@ -5,6 +5,7 @@ import { Menu } from '@headlessui/react'
 import { useSelector, useDispatch } from 'react-redux';
 import { IoIosLogOut } from "react-icons/io";
 import { logoutUser, profileUser, resetState } from '../features/user/userSlice';
+import { stables } from '../constants/stables';
 
 const Header = () => {
     // const [isOpen, setIsOpen] = useState(false)
@@ -60,7 +61,15 @@ const Header = () => {
                             :
                             <div className='relative'>
                                 <Menu>
-                                    <Menu.Button className='flex items-center text-3xl'><CgProfile /></Menu.Button>
+                                    <Menu.Button className='flex items-center text-3xl h-9 w-9'>
+                                        {
+                                            profile?.avatar
+                                                ?
+                                                <img className='rounded-full object-cover h-9 w-9 border-2' src={stables + profile?.avatar} alt="" />
+                                                :
+                                                <CgProfile />
+                                        }
+                                    </Menu.Button>
                                     <Menu.Items className='absolute w-max bg-white text-black right-0 top-12 p-2 rounded-xl flex flex-col text-end border'>
                                         {
                                             profile?.admin &&
@@ -72,7 +81,7 @@ const Header = () => {
                                             <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/profile'}>Profile</Link>
                                         </Menu.Item>
                                         <Menu.Item>
-                                            <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/post'}>Add Blog</Link>
+                                            <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/list-post'}>Add Blog</Link>
                                         </Menu.Item>
                                         <Menu.Item>
                                             <Link to={'/'} className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all '

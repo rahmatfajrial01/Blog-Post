@@ -5,10 +5,12 @@ import Button from '../../components/Button'
 import Input from '../../components/Input'
 import { getAllPosts } from '../../features/post/postSlice'
 import { CiViewList } from "react-icons/ci";
+import { stables } from '../../constants/stables'
 
 const User = () => {
 
     const posts = useSelector(state => state?.post?.posts)
+    const postCreated = useSelector(state => state?.post?.postCreated)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -58,10 +60,10 @@ const User = () => {
                                     <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
                                         Category
                                     </th>
-                                    {/* <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
+                                    <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
                                         User
                                     </th>
-                                    <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
+                                    {/* <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
                                         Role
                                     </th> */}
                                     <th scope="col" className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200">
@@ -80,7 +82,9 @@ const User = () => {
                                                 <div className="flex items-center">
                                                     <div className="flex-shrink-0">
                                                         <a href="#" className="relative block">
-                                                            <CiViewList className='text-3xl' />
+                                                            {
+                                                                item?.photo ? <img className='w-24 h-14 object-cover rounded-sm' src={stables + item?.photo} alt="" /> : <CiViewList className='text-3xl' />
+                                                            }
                                                         </a>
                                                     </div>
                                                     <div className="ml-3">
@@ -99,12 +103,12 @@ const User = () => {
                                                     )}
                                                 </p>
                                             </td>
-                                            {/* <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                            <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                                 <p className="text-gray-900 whitespace-no-wrap">
                                                     {item.user?.username}
                                                 </p>
                                             </td>
-                                            <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                            {/* <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                                 <p className="text-gray-900 whitespace-no-wrap">
                                                     {item?.user?.admin === true ? "Admin " : "User"}
 

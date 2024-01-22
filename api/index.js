@@ -4,6 +4,8 @@ const dotenv = require("dotenv")
 const cors = require('cors')
 const connectDatabase = require("./src/config/db")
 const morgan = require('morgan')
+const path = require("path");
+
 
 
 
@@ -22,6 +24,7 @@ const { notFound, errorHandler } = require("./src/middlewares/errorHandler")
 app.use('/api/user', authRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/post-categories', postCategoriesRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 
 app.use(notFound)

@@ -26,17 +26,25 @@ export const profileUser = createAsyncThunk("auth/profile", async (token, thunkA
     }
 })
 
-export const logoutUser = createAsyncThunk("auth/logout", (thunkApi) => {
+export const updateUser = createAsyncThunk("auth/update-user", async (data, thunkApi) => {
     try {
-        return authService.logout()
+        return await authService.updateUser(data)
     } catch (error) {
         return thunkApi.rejectWithValue(error)
     }
 })
 
-export const getAllUser = createAsyncThunk("auth/all-user", (thunkApi) => {
+export const updateUserProfile = createAsyncThunk("auth/update-user-profile", async (data, thunkApi) => {
     try {
-        return authService.getAllUser()
+        return await authService.updateUserProfile(data)
+    } catch (error) {
+        return thunkApi.rejectWithValue(error)
+    }
+})
+
+export const logoutUser = createAsyncThunk("auth/logout", (thunkApi) => {
+    try {
+        return authService.logout()
     } catch (error) {
         return thunkApi.rejectWithValue(error)
     }
@@ -57,7 +65,6 @@ const initialState = {
     message: "",
     profile: "",
     allUser: "",
-
 }
 
 export const authSlice = createSlice({
@@ -124,6 +131,42 @@ export const authSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.error;
             })
+            .addCase(updateUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.userUpdated = action.payload;
+                if (state.isSuccess === true) {
+                    toast.info("User Updateted Successfully")
+                }
+            })
+            .addCase(updateUserProfile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            })
+            .addCase(updateUserProfile.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updateUserProfile.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.userProfileUpdated = action.payload;
+                if (state.isSuccess === true) {
+                    toast.info("User Profiles Updateted Successfully")
+                }
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            })
             .addCase(logoutUser.pending, (state) => {
                 state.isLoading = true;
             })
@@ -144,21 +187,6 @@ export const authSlice = createSlice({
                 // if (state.isError === true) {
                 //     toast.error(action.payload.response.data.message)
                 // }
-            })
-            .addCase(getAllUser.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(getAllUser.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isError = false;
-                state.isSuccess = true;
-                state.allUser = action.payload;
-            })
-            .addCase(getAllUser.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = true;
-                state.isSuccess = false;
-                state.message = action.error;
             })
             .addCase(resetState, () => initialState)
     }
