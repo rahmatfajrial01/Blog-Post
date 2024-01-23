@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PrivateRoutes } from './routing/privateRoutes'
 import { OpenRoutes } from './routing/openRoutes'
 import ListPostsUser from './pages/ListPostUser'
+import EditPost from './pages/EditPost'
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
             <Route path='detail' element={<DetailCart />} />
             <Route path='profile' element={<PrivateRoutes><Profile /></PrivateRoutes>} />
             <Route path='list-post' element={<PrivateRoutes><ListPostsUser /></PrivateRoutes>} />
+            <Route path="post/:slug" element={<PrivateRoutes><EditPost /></PrivateRoutes>} />
             <Route path='post' element={<PrivateRoutes><Post /></PrivateRoutes>} />
             <Route path='login' element={<OpenRoutes><Login /></OpenRoutes>} />
             <Route path='register' element={<OpenRoutes><Register /></OpenRoutes>} />

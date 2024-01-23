@@ -32,6 +32,38 @@ const deletePost = async (data) => {
     }
 }
 
+const getSinglePost = async (slug) => {
+    const response = await axios.get(`${base_url}post/${slug}`)
+    if (response.data) {
+        return response.data
+    }
+}
+
+const updatePost = async (slug) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${slug.token}`,
+            Accept: "application/json",
+        },
+    };
+    const response = await axios.put(`${base_url}post/document/${slug.slug}`, slug.updateData, config)
+    if (response.data) {
+        return response.data
+    }
+}
+const updatePostPicture = async (slug) => {
+    const config = {
+        headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${slug.token}`,
+        },
+    };
+    const response = await axios.put(`${base_url}post/${slug.slug}`, slug.updateData, config)
+    if (response.data) {
+        return response.data
+    }
+}
+
 export const postService = {
-    createPost, getAllPosts, deletePost
+    createPost, getAllPosts, deletePost, getSinglePost, updatePost, updatePostPicture
 }

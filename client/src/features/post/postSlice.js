@@ -28,6 +28,33 @@ export const deletePost = createAsyncThunk(
         }
     })
 
+export const getSinglePost = createAsyncThunk(
+    "post/single-post", async (slug, thunkApi) => {
+        try {
+            return await postService.getSinglePost(slug)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    })
+
+export const updatePost = createAsyncThunk(
+    "post/edit-post", async (slug, thunkApi) => {
+        try {
+            return await postService.updatePost(slug)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    })
+
+export const updatePostPicture = createAsyncThunk(
+    "post/edit-post-picture", async (slug, thunkApi) => {
+        try {
+            return await postService.updatePostPicture(slug)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    })
+
 export const resetState = createAction("resetState")
 
 const initialState = {
@@ -90,6 +117,51 @@ export const postSlice = createSlice({
                 }
             })
             .addCase(deletePost.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            })
+            .addCase(getSinglePost.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getSinglePost.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.singlePost = action.payload;
+            })
+            .addCase(getSinglePost.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            })
+            .addCase(updatePost.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updatePost.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.updatedPost = action.payload;
+            })
+            .addCase(updatePost.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            })
+            .addCase(updatePostPicture.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updatePostPicture.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.picturePostUpdated = action.payload;
+            })
+            .addCase(updatePostPicture.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;

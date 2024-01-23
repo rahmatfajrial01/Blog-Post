@@ -115,7 +115,7 @@ const ListPostsUser = () => {
                                                         </td>
                                                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                                             <span className='flex  gap-2 '>
-                                                                <button onClick={() => { }} className='bg-green-500 hover:opacity-85 py-1 px-2 rounded-xl text-white'>Edit</button>
+                                                                <Link to={`/post/${item?.slug}`} className='bg-green-500 hover:opacity-85 py-1 px-2 rounded-xl text-white'>Edit</Link>
                                                                 <button onClick={() => { deleteAPost(item?.slug) }} className='bg-red-500 hover:opacity-85 py-1 px-2 rounded-xl text-white'>Delete</button>
                                                             </span>
                                                         </td>

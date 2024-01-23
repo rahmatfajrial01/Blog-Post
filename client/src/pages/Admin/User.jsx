@@ -28,8 +28,8 @@ const User = () => {
                 <div className="rounded-xl bg-white p-3 border ">
                     <div className="">
                         <div className="flex gap-16 ">
-                            <form className='w-1/2 flex' >
-                                <div className='w-full me-1 relative'>
+                            <div className='w-1/2 flex' >
+                                {/* <div className='w-full me-1 relative'>
                                     <Input
                                         type="text"
                                         name="title"
@@ -39,10 +39,10 @@ const User = () => {
                                         </p>
                                     </span>
                                 </div>
-                                <span>
-                                    {/* <Button /> */}
-                                </span>
-                            </form>
+                                <span> */}
+                                {/* <Button /> */}
+                                {/* </span> */}
+                            </div>
                             <div className=' w-1/2 flex' >
                                 <div className='w-full me-1'>
                                     <Input />

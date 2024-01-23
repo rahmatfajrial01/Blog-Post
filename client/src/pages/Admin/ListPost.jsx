@@ -27,19 +27,26 @@ const User = () => {
                 </p>
             </div>
             <div className='px-5  rounded-xl'>
-                <div className="rounded-lg">
+                <div className="rounded-xl bg-white p-3 border ">
                     <div className="">
-                        <div className="flex gap-16">
+                        <div className="flex gap-16 ">
                             <div className='w-1/2 flex' >
-                                <div className='w-full me-2'>
-                                    <Input />
+                                {/* <div className='w-full me-1 relative'>
+                                    <Input
+                                        type="text"
+                                        name="title"
+                                    />
+                                    <span className='flex gap-2 absolute bg-white px-2  rounded-xl'>
+                                        <p className='text-red-500'>
+                                        </p>
+                                    </span>
                                 </div>
-                                <span>
-                                    <Button />
-                                </span>
+                                <span> */}
+                                {/* <Button /> */}
+                                {/* </span> */}
                             </div>
                             <div className=' w-1/2 flex' >
-                                <div className='w-full me-2'>
+                                <div className='w-full me-1'>
                                     <Input />
                                 </div>
                                 <span>
