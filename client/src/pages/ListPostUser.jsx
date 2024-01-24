@@ -78,7 +78,7 @@ const ListPostsUser = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        posts.length !== 0 && posts.map((item, key) => {
+                                        posts?.result && posts?.result.map((item, key) => {
                                             if (item?.user?._id === profile?._id) {
                                                 return (
                                                     <tr key={key}>

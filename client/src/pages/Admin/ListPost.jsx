@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CgProfile } from 'react-icons/cg'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '../../components/Button'
@@ -13,11 +13,26 @@ const User = () => {
     const postCreated = useSelector(state => state?.post?.postCreated)
     const dispatch = useDispatch()
 
+    const [searchKeyword, setSearchKeyword] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [counter, setCounter] = useState(1);
+    const limit = 2
     useEffect(() => {
-        dispatch(getAllPosts())
-    }, [])
+        dispatch(getAllPosts({ searchKeyword, page: counter, limit }))
+    }, [counter])
 
-    console.log(posts)
+    const submitSearchKeywordHandler = (e) => {
+        e.preventDefault();
+        dispatch(getAllPosts({ searchKeyword, page: counter, limit }))
+    };
+
+    const previous = () => {
+        setCounter(counter <= 1 ? 1 : counter - 1)
+
+    }
+    const next = () => {
+        setCounter(counter === posts?.pages ? posts?.pages : counter + 1)
+    }
 
     return (
         <section className='w-full pt-5 px-5 bg-slate-50'>
@@ -45,14 +60,24 @@ const User = () => {
                                 {/* <Button /> */}
                                 {/* </span> */}
                             </div>
-                            <div className=' w-1/2 flex' >
+                            <form onSubmit={submitSearchKeywordHandler} className=' w-1/2 flex' >
                                 <div className='w-full me-1'>
-                                    <Input />
+                                    <Input
+                                        value={searchKeyword}
+                                        className='border p-2'
+                                        onChange={(e) => setSearchKeyword(e.target.value)}
+
+                                    />
+                                    {/* <input type="text"
+                                        value={searchKeyword}
+                                        className='border p-2'
+                                        onChange={(e) => setSearchKeyword(e.target.value)}
+                                    /> */}
                                 </div>
                                 <span>
                                     <Button />
                                 </span>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -83,7 +108,7 @@ const User = () => {
                             </thead>
                             <tbody>
                                 {
-                                    posts.length !== 0 && posts.map((item, key) => {
+                                    posts?.result && posts?.result.map((item, key) => {
                                         return <tr key={key}>
                                             <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                                 <div className="flex items-center">
@@ -104,7 +129,7 @@ const User = () => {
                                             <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 ">
                                                 <p className="text-gray-900 whitespace-no-wrap space-x-3 ">
                                                     {item?.categories && item?.categories.map((item, key) =>
-                                                        <span>
+                                                        <span key={key}>
                                                             {item.title}
                                                         </span>
                                                     )}
@@ -141,16 +166,16 @@ const User = () => {
                         </table>
                         <div className="flex flex-col items-center px-5 py-5 bg-white xs:flex-row xs:justify-between">
                             <div className="flex items-center">
-                                <button type="button" className="w-full p-4 text-base text-gray-600 bg-white border rounded-l-xl hover:bg-gray-100">
+                                <button onClick={previous} type="button" className="w-full p-4 text-base text-gray-600 bg-white border rounded-l-xl hover:bg-gray-100">
                                     <svg width="9" fill="currentColor" height="8" className="" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M1427 301l-531 531 531 531q19 19 19 45t-19 45l-166 166q-19 19-45 19t-45-19l-742-742q-19-19-19-45t19-45l742-742q19-19 45-19t45 19l166 166q19 19 19 45t-19 45z">
                                         </path>
                                     </svg>
                                 </button>
-                                <button type="button" className="w-full px-4 py-2 text-base text-indigo-500 bg-white border-t border-b hover:bg-gray-100 ">
-                                    1
-                                </button>
-                                <button type="button" className="w-full px-4 py-2 text-base text-gray-600 bg-white border hover:bg-gray-100">
+                                <p className="w-full space-x-3 px-4 py-2 text-base text-indigo-500 bg-white border-t border-b border-e hover:bg-gray-100 ">
+                                    <span>{posts?.page}</span><span>/</span><span>{posts?.pages}</span>
+                                </p>
+                                {/* <button type="button" className="w-full px-4 py-2 text-base text-gray-600 bg-white border hover:bg-gray-100">
                                     2
                                 </button>
                                 <button type="button" className="w-full px-4 py-2 text-base text-gray-600 bg-white border-t border-b hover:bg-gray-100">
@@ -158,8 +183,8 @@ const User = () => {
                                 </button>
                                 <button type="button" className="w-full px-4 py-2 text-base text-gray-600 bg-white border hover:bg-gray-100">
                                     4
-                                </button>
-                                <button type="button" className="w-full p-4 text-base text-gray-600 bg-white border-t border-b border-r rounded-r-xl hover:bg-gray-100">
+                                </button> */}
+                                <button onClick={next} type="button" className="w-full p-4 text-base text-gray-600 bg-white border-t border-b border-r rounded-r-xl hover:bg-gray-100">
                                     <svg width="9" fill="currentColor" height="8" className="" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z">
                                         </path>
