@@ -128,7 +128,7 @@ const getAllPosts = async (req, res, next) => {
             .populate([
                 {
                     path: "user",
-                    select: ["avatar", "username"],
+                    select: ["avatar", "username", "admin"],
                 },
                 {
                     path: "categories",

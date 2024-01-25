@@ -30,7 +30,7 @@ function App() {
         <Routes>
           <Route path='/' element={<MainLayouts />}>
             <Route index element={<Home />} />
-            <Route path='detail' element={<DetailCart />} />
+            <Route path=':slug' element={<DetailCart />} />
             <Route path='profile' element={<PrivateRoutes><Profile /></PrivateRoutes>} />
             <Route path='list-post' element={<PrivateRoutes><ListPostsUser /></PrivateRoutes>} />
             <Route path="post/:slug" element={<PrivateRoutes><EditPost /></PrivateRoutes>} />

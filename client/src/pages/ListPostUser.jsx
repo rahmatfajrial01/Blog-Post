@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CgProfile } from 'react-icons/cg'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '../components/Button'
@@ -16,9 +16,16 @@ const ListPostsUser = () => {
     const deletedPost = useSelector(state => state?.post?.deletedPost)
     const dispatch = useDispatch()
 
+    // useEffect(() => {
+    //     dispatch(getAllPosts())
+    // }, [deletedPost])
+    const [searchKeyword, setSearchKeyword] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [counter, setCounter] = useState(1);
+    const limit = ''
     useEffect(() => {
-        dispatch(getAllPosts())
-    }, [deletedPost])
+        dispatch(getAllPosts({ searchKeyword, page: counter, limit }))
+    }, [counter, deletedPost])
 
     // console.log(posts)
     // console.log(profile._id)

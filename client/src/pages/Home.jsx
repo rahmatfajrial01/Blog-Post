@@ -1,15 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Cart from '../components/Cart'
 import images from '../constants/images'
 import { FaSearch } from "react-icons/fa";
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllPosts } from '../features/post/postSlice';
 
 
 const Home = () => {
+
+    const dispatch = useDispatch()
+
+    const posts = useSelector(state => state?.post?.posts)
+    const searchKeyword = ''
+    const page = ''
+    const limit = ''
+
+    useEffect(() => {
+        dispatch(getAllPosts({ searchKeyword, page, limit }))
+    }, [])
+
+    console.log(posts)
     return (
         <>
             <div className='bg-black -mt-8'>
                 <div className='container mx-auto text-white min-h-[50vh]'>
-
                     <div className='flex'>
                         <div className=' md:w-1/2 min-h-[50vh] flex  justify-center items-center'>
                             <div className='flex flex-col lg:gap-10 gap-10  md:gap-7 justify-center px-10 '>
@@ -39,14 +53,19 @@ const Home = () => {
                     <span>category 6</span>
                 </div>
                 <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5 mt-5'>
-                    <Cart />
-                    <Cart />
-                    <Cart />
-                    <Cart />
-                    <Cart />
-                    <Cart />
-                    <Cart />
-                    <Cart />
+                    {
+                        posts?.result && posts.result.map((item, key) =>
+                            <Cart
+                                key={key}
+                                title={item?.title}
+                                photo={item?.photo}
+                                createdAt={item?.createdAt}
+                                avatar={item?.user?.avatar}
+                                username={item?.user?.username}
+                                slug={item?.slug}
+                            />
+                        )
+                    }
                 </div>
                 <div className='flex justify-center my-5'>
                     <span className='border rounded-xl  p-3'>more </span>
