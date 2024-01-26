@@ -14,15 +14,13 @@ const createPost = async (postData) => {
 
 const getAllPosts = async (data) => {
     try {
-        const response = await axios.get(`${base_url}post?searchKeyword=${data.searchKeyword}&page=${data.page}&limit=${data.limit}`)
+        const response = await axios.get(`${base_url}post?searchKeyword=${data.searchKeyword}&page=${data.page}&limit=${data.limit}&categories=${data.cat}`)
         if (response.data) {
             return response.data
         }
     } catch (error) {
         console.log(error)
     }
-
-
 }
 
 const deletePost = async (data) => {

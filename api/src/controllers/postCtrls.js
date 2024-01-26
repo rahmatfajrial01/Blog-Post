@@ -97,11 +97,16 @@ const getAllPosts = async (req, res, next) => {
     // } catch (error) {
     //     next(error);
     // }
+
     try {
         const filter = req.query.searchKeyword;
         let where = {};
         if (filter) {
             where.title = { $regex: filter, $options: "i" };
+        }
+        const cat = req.query.categories
+        if (cat) {
+            where.categories = req.query.categories
         }
         let query = Post.find(where);
         const page = parseInt(req.query.page) || 1;

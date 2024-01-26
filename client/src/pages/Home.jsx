@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Cart from '../components/Cart'
 import images from '../constants/images'
 import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllPosts } from '../features/post/postSlice';
+import { getAllPosts, resetState } from '../features/post/postSlice';
+import { getAllPostCategories } from '../features/postCategory/postCategorySlice';
 
 
 const Home = () => {
@@ -11,15 +12,22 @@ const Home = () => {
     const dispatch = useDispatch()
 
     const posts = useSelector(state => state?.post?.posts)
+    const postCategories = useSelector(state => state?.postCategory)
     const searchKeyword = ''
     const page = ''
-    const limit = ''
+
+    const [limit, setLimit] = useState(4)
+    const [cat, setCat] = useState('')
 
     useEffect(() => {
-        dispatch(getAllPosts({ searchKeyword, page, limit }))
+        dispatch(resetState())
     }, [])
 
-    console.log(posts)
+    useEffect(() => {
+        dispatch(getAllPosts({ searchKeyword, page, limit, cat }))
+        dispatch(getAllPostCategories())
+    }, [limit, cat])
+
     return (
         <>
             <div className='bg-black -mt-8'>
@@ -45,17 +53,19 @@ const Home = () => {
             </div>
             <div className='min-h-[50vh] container mx-auto'>
                 <div className='flex justify-between mt-5 '>
-                    <span>category 1</span>
-                    <span>category 2</span>
-                    <span>category 3</span>
-                    <span>category 4</span>
-                    <span>category 5</span>
-                    <span>category 6</span>
+                    <span onClick={() => { setCat(""), setLimit(4) }} className="cursor-pointer">All</span>
+                    {
+                        postCategories?.postCategories && postCategories?.postCategories.map((item, key) =>
+                            <span className="cursor-pointer" onClick={() => setCat(item._id)} key={key}>{item?.title}</span>
+                        )
+                    }
+
                 </div>
                 <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5 mt-5'>
                     {
-                        posts?.result && posts.result.map((item, key) =>
-                            <Cart
+                        posts?.result && posts.result.map((item, key) => {
+
+                            return <Cart
                                 key={key}
                                 title={item?.title}
                                 photo={item?.photo}
@@ -64,11 +74,13 @@ const Home = () => {
                                 username={item?.user?.username}
                                 slug={item?.slug}
                             />
+
+                        }
                         )
                     }
                 </div>
                 <div className='flex justify-center my-5'>
-                    <span className='border rounded-xl  p-3'>more </span>
+                    <span onClick={() => setLimit(limit + 4)} className='border rounded-xl cursor-pointer p-3'>more </span>
                 </div>
             </div>
         </>

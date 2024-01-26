@@ -20,13 +20,14 @@ const User = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [counter, setCounter] = useState(1);
     const limit = 4
+    const cat = ""
 
     useEffect(() => {
         dispatch(resetState())
     }, [])
 
     useEffect(() => {
-        dispatch(getAllPosts({ searchKeyword, page: counter, limit }))
+        dispatch(getAllPosts({ searchKeyword, page: counter, limit, cat }))
     }, [counter])
 
     const submitSearchKeywordHandler = (e) => {
@@ -179,7 +180,6 @@ const User = () => {
                                         }
                                         )
                                     }
-
 
                                 </tbody>
                             </table>

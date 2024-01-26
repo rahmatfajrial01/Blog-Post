@@ -23,8 +23,9 @@ const ListPostsUser = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [counter, setCounter] = useState(1);
     const limit = ''
+    const cat = ""
     useEffect(() => {
-        dispatch(getAllPosts({ searchKeyword, page: counter, limit }))
+        dispatch(getAllPosts({ searchKeyword, page: counter, limit, cat }))
     }, [counter, deletedPost])
 
     // console.log(posts)
@@ -132,7 +133,6 @@ const ListPostsUser = () => {
                                         )
                                     }
 
-
                                 </tbody>
                             </table>
                             <div className="flex flex-col items-center px-5 py-5 bg-white xs:flex-row xs:justify-between">
@@ -165,10 +165,6 @@ const ListPostsUser = () => {
                             </div>
                         </div>
                     </div>
-
-
-
-
                 </div>
             </Body>
 

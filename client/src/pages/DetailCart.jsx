@@ -21,10 +21,15 @@ const DetailCart = () => {
     const searchKeyword = ''
     const page = ''
     const limit = ''
+    const cat = ""
     useEffect(() => {
         dispatch(resetState())
-        dispatch(getAllPosts({ searchKeyword, page, limit }))
+        dispatch(getAllPosts({ searchKeyword, page, limit, cat }))
     }, [])
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [url]);
 
     return (
         <section className='flex justify-between container mx-auto my-5 gap-10 min-h-screen' >
@@ -44,7 +49,7 @@ const DetailCart = () => {
                 {
                     posts?.result && posts?.result.map((item, key) =>
                         <div key={key} onClick={() => setUrl(item.slug)} className='flex gap-2 ' >
-                            <img className='rounded-xl h-24  ' src={stables + item?.photo} alt="" />
+                            <img className='rounded-xl cursor-pointer  h-24  ' src={stables + item?.photo} alt="" />
                             <div className='p-1 w-full flex flex-col justify-center overflow-hidden h-24 '>
                                 <h1 >{item?.title}</h1>
                             </div>
