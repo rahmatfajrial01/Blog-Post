@@ -33,7 +33,7 @@ const User = () => {
     const submitSearchKeywordHandler = (e) => {
         e.preventDefault();
         setCounter(1)
-        dispatch(getAllPosts({ searchKeyword, page: counter, limit }))
+        dispatch(getAllPosts({ searchKeyword, page: counter, limit, cat }))
     };
 
     const previous = () => {

@@ -13,11 +13,12 @@ const Dashboard = () => {
     const searchKeyword = ''
     const page = ''
     const limit = ''
+    const cat = ''
 
     useEffect(() => {
         dispatch(getAllUser())
         dispatch(getAllPostCategories())
-        dispatch(getAllPosts({ searchKeyword, page, limit }))
+        dispatch(getAllPosts({ searchKeyword, page, limit, cat }))
     }, [])
 
 
