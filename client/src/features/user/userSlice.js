@@ -18,6 +18,14 @@ export const loginUser = createAsyncThunk("auth/login", async (userData, thunkAp
     }
 })
 
+export const loginGoogle = createAsyncThunk("auth/login-google", async (userData, thunkApi) => {
+    try {
+        return await authService.google(userData)
+    } catch (error) {
+        return thunkApi.rejectWithValue(error)
+    }
+})
+
 export const profileUser = createAsyncThunk("auth/profile", async (token, thunkApi) => {
     try {
         return await authService.profile(token)
@@ -108,6 +116,28 @@ export const authSlice = createSlice({
                 }
             })
             .addCase(loginUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+                if (state.isError === true) {
+                    toast.error(action.payload.response.data.message)
+                }
+            })
+            .addCase(loginGoogle.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(loginGoogle.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.user = action.payload;
+                if (state.isSuccess === true) {
+                    // localStorage.setItem("user", JSON.stringify(action.payload))
+                    toast.info("User Login Successfully")
+                }
+            })
+            .addCase(loginGoogle.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;

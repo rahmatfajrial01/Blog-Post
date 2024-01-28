@@ -14,6 +14,13 @@ const login = async (userData) => {
         return response.data
     }
 }
+const google = async (userData) => {
+    const response = await axios.post(`${base_url}user/google`, userData)
+    if (response.data) {
+        // localStorage.setItem("user", JSON.stringify(response.data))
+        return response.data
+    }
+}
 const profile = async (token) => {
     if (token === undefined) return
     const config = {
@@ -64,5 +71,6 @@ export const authService = {
     profile,
     logout,
     updateUser,
-    updateUserProfile
+    updateUserProfile,
+    google
 }

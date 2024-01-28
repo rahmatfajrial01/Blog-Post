@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import { loginUser } from '../features/user/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import Oauth from '../components/Oauth'
 
 const Login = () => {
 
@@ -86,6 +87,7 @@ const Login = () => {
                             </span>
                         </div>
                         <Button />
+                        <Oauth />
                         <div className='text-sm py-1'>
                             <p>Dont't have an accoount ? <Link to={'/register'} className='text-blue-500'>Register !</Link></p>
                         </div>

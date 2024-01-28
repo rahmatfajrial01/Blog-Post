@@ -172,6 +172,47 @@ const updateProfilePicture = async (req, res, next) => {
     }
 };
 
+const google = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+        if (user) {
+            return res.status(201).json({
+                _id: user._id,
+                avatar: user.avatar,
+                username: user.username,
+                email: user.email,
+                // verified: user.verified,
+                // admin: user.admin,
+                token: await user.generateJWT(),
+            });
+        } else {
+            const generatedPassword =
+                Math.random().toString(36).slice(-8) +
+                Math.random().toString(36).slice(-8);
+            const hashedPassword = generatedPassword;
+            const newUser = new User({
+                username:
+                    req.body.name.split(' ').join('').toLowerCase() +
+                    Math.random().toString(36).slice(-8),
+                email: req.body.email,
+                password: hashedPassword,
+                avatar: req.body.photo,
+            });
+            await newUser.save();
+            return res.status(201).json({
+                _id: newUser._id,
+                avatar: newUser.avatar,
+                username: newUser.username,
+                email: newUser.email,
+                // verified: newUser.verified,
+                // admin: newUser.admin,
+                token: await newUser.generateJWT(),
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
+};
 
 module.exports = {
     registerUser,
@@ -179,6 +220,7 @@ module.exports = {
     userProfile,
     getAllUser,
     updateProfile,
-    updateProfilePicture
+    updateProfilePicture,
+    google
 }
 

@@ -82,7 +82,8 @@ const DetailCart = () => {
                         commentState?.comments && commentState?.comments.filter(item => item?.post === postState?.id).map((item, key) =>
                             <div key={key} className='flex flex-col gap-2 p-2 '>
                                 <div className='flex gap-2 items-center'>
-                                    <CgProfile className='text-4xl' />
+                                    {/* <CgProfile className='text-4xl' /> */}
+                                    <img className='border-2 w-10 h-10 object-cover rounded-full' src={stables + item?.user?.avatar} alt="" />
                                     <div className=''>
                                         <p className='text-md'>{item?.user?.username}</p>
                                         <p className='text-sm'>{item?.createdAt}</p>
