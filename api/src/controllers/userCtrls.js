@@ -94,6 +94,7 @@ const updateProfile = async (req, res, next) => {
             throw new Error("User not found");
         }
 
+        user.avatar = req.body.avatar || user.avatar;
         user.username = req.body.username || user.username;
         user.email = req.body.email || user.email;
         if (req.body.password && req.body.password.length < 5) {
@@ -196,7 +197,7 @@ const google = async (req, res, next) => {
                     Math.random().toString(36).slice(-8),
                 email: req.body.email,
                 password: hashedPassword,
-                avatar: req.body.photo,
+                avatar: req.body.avatar,
             });
             await newUser.save();
             return res.status(201).json({

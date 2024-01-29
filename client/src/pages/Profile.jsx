@@ -11,12 +11,21 @@ import { CgProfile } from "react-icons/cg";
 import { profileUser, updateUser, updateUserProfile } from '../features/user/userSlice'
 import { stables } from '../constants/stables'
 
+import {
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytesResumable,
+} from 'firebase/storage';
+import { app } from '../../firebase';
+
+
 const Profile = () => {
     const userState = useSelector(state => state?.auth?.user)
     const profileUpdated = useSelector(state => state?.auth?.userProfileUpdated)
     const profile = useSelector(state => state?.auth?.profile)
     // const token = useSelector(state => state?.user.userInfo.token)
-    console.log(userState.token)
+    // console.log(userState.token)
 
     const dispatch = useDispatch()
     // const navigate = useNavigate()
@@ -29,9 +38,13 @@ const Profile = () => {
         // Cpassword: Yup.string().required("password confirm password is required").oneOf([Yup.ref('password'), null], 'Must match "password" field value'),
     });
 
+    const [formData, setFormData] = useState({});
+
+
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
+            avatar: formData?.profilePicture || "",
             username: profile?.username || "",
             email: profile?.email || "",
             password: profile?.password || "",
@@ -59,19 +72,45 @@ const Profile = () => {
         setPicture("");
     }
 
-    const handleSubmit = () => {
-        const values = new FormData()
-        values.append('profilePicture', picture)
-        const data = { values, token: userState.token }
-        dispatch(updateUserProfile(data))
-    }
-
+    const [imagePercent, setImagePercent] = useState(0);
     const [picture, setPicture] = useState('')
+    const [imageError, setImageError] = useState(false);
+
+    const handleSubmit = () => {
+        // const values = new FormData()
+        // values.append('profilePicture', picture)
+        const storage = getStorage(app);
+        const fileName = new Date().getTime() + picture.name;
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, picture);
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setImagePercent(Math.round(progress));
+            },
+            (error) => {
+                setImageError(true);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
+                    setFormData({ ...formData, profilePicture: downloadURL }),
+                );
+            }
+        );
+
+        // const data = { values, token: userState.token }
+        // dispatch(updateUserProfile(data))
+    }
+    console.log(formData)
+
+
 
     const handleChoose = (e) => {
         const file = e.target.files[0];
         setPicture(file);
-        console.log(file)
+        // console.log(file)
     }
 
     // let img3 = { URL.createObjectURL(picture) }
@@ -89,7 +128,7 @@ const Profile = () => {
                             {
                                 profile?.avatar
                                     ?
-                                    <img className="w-14 h-14 object-cover rounded-full" src={stables + profile?.avatar} alt="" />
+                                    <img className="w-14 h-14 object-cover rounded-full" src={profile?.avatar} alt="" />
                                     :
                                     !picture
                                         ?
@@ -109,7 +148,7 @@ const Profile = () => {
                                     :
                                     picture
                                         ?
-                                        <button className='p-1 bg-green-500 text-white rounded-xl' onClick={handleSubmit} type='button'>Apply</button>
+                                        <button className='px-2 py-1 bg-green-500 text-white rounded-xl' onClick={handleSubmit} type='button'>{imagePercent ? <p>{imagePercent} %</p> : "Apply"}</button>
                                         :
                                         ""
                             }
