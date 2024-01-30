@@ -82,7 +82,7 @@ const User = () => {
                                                     <div className="flex-shrink-0">
                                                         <a href="#" className="relative block">
                                                             {
-                                                                item?.avatar ? <img className='w-14 h-14 object-cover rounded-full' src={stables + item?.avatar} alt="" /> : <CgProfile className='text-6xl' />
+                                                                item?.avatar ? <img className='w-14 h-14 object-cover rounded-full' src={item?.avatar} alt="" /> : <CgProfile className='text-6xl' />
                                                             }
                                                         </a>
                                                     </div>

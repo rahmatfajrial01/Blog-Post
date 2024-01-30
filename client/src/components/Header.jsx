@@ -14,7 +14,7 @@ const Header = () => {
 
     const userState = useSelector(state => state?.auth?.user)
     const profile = useSelector(state => state?.auth?.profile)
-    console.log(authState?.user)
+    // console.log(authState?.user)
 
     const handleLogout = () => {
         // localStorage.clear()
@@ -65,7 +65,7 @@ const Header = () => {
                                         {
                                             profile?.avatar
                                                 ?
-                                                <img className='rounded-full object-cover h-9 w-9 border-2' src={stables + profile?.avatar} alt="" />
+                                                <img className='rounded-full object-cover h-9 w-9 border-2' src={profile?.avatar} alt="" />
                                                 :
                                                 <CgProfile />
                                         }

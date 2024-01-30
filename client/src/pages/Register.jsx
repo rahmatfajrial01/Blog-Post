@@ -39,8 +39,8 @@ const Register = () => {
     useEffect(() => {
         if (authState.createdUser !== null && authState.isError === false) {
             navigate('/login')
+            dispatch(resetState())
         }
-        dispatch(resetState())
     }, [authState.createdUser])
 
 

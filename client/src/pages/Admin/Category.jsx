@@ -44,9 +44,21 @@ const Category = () => {
         },
     });
 
+    let [isOpen, setIsOpen] = useState(false)
+    let [idCat, setIdCat] = useState("")
+    console.log(idCat)
+    const openModal = (e) => {
+        setIsOpen(true)
+        setIdCat(e)
+    }
+    const closeModal = () => {
+        setIsOpen(false)
+    }
+
     const deleteAPost = (id) => {
         const data = { token, id }
         dispatch(deletePostCategories(data))
+        setIsOpen(false)
     }
 
     const getAId = (id) => {
@@ -128,7 +140,7 @@ const Category = () => {
                                                 </td>
                                                 <td className="flex gap-2 px-5 py-5 text-sm bg-white border-b border-gray-200">
                                                     <button onClick={() => { getAId(item?._id) }} className='bg-green-500 hover:opacity-85 py-1 px-2 rounded-xl text-white'>Edit</button>
-                                                    <button onClick={() => { deleteAPost(item?._id) }} className='bg-red-500 hover:opacity-85 py-1 px-2 rounded-xl text-white'>Delete</button>
+                                                    <button onClick={() => { openModal(item?._id) }} className='bg-red-500 hover:opacity-85 py-1 px-2 rounded-xl text-white'>Delete</button>
                                                 </td>
                                             </tr>
                                         )
@@ -165,6 +177,15 @@ const Category = () => {
                                 </button>
                             </div>
                         </div> */}
+                    </div>
+                </div>
+            </div>
+            <div className={`fixed inset-0 z-10 min-h-screen w-full ${isOpen === true ? "flex justify-center items-center" : "hidden"}`}>
+                <div className='max-w-fit space-y-3 bg-slate-300 p-3 border rounded-xl '>
+                    <p>Are Your Sure Deleting This Category ?</p>
+                    <div className='flex justify-end gap-3 text-white'>
+                        <button type='reset' onClick={() => closeModal()} className='bg-blue-500 py-1 px-3 rounded-xl'>NO</button>
+                        <button onClick={() => deleteAPost(idCat)} className='bg-red-500 p-1 px-3 rounded-xl'>Yes</button>
                     </div>
                 </div>
             </div>

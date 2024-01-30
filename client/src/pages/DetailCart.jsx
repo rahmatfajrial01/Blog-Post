@@ -60,7 +60,7 @@ const DetailCart = () => {
                 <p className=''> {postState?.caption}     </p>
                 <div className='px-1 pb-1 flex justify-between items-center'>
                     <div className='w-10 flex items-center gap-1 '>
-                        <img className='border-2 w-10 h-10 object-cover rounded-full' src={stables + postState?.user?.avatar} alt="" />
+                        <img className='border-2 w-10 h-10 object-cover rounded-full' src={postState?.user?.avatar} alt="" />
                         <h1 >{postState?.user?.username}</h1>
                     </div>
                     <div>{postState?.createdAt}</div>
@@ -83,7 +83,7 @@ const DetailCart = () => {
                             <div key={key} className='flex flex-col gap-2 p-2 '>
                                 <div className='flex gap-2 items-center'>
                                     {/* <CgProfile className='text-4xl' /> */}
-                                    <img className='border-2 w-10 h-10 object-cover rounded-full' src={stables + item?.user?.avatar} alt="" />
+                                    <img className='border-2 w-10 h-10 object-cover rounded-full' src={item?.user?.avatar} alt="" />
                                     <div className=''>
                                         <p className='text-md'>{item?.user?.username}</p>
                                         <p className='text-sm'>{item?.createdAt}</p>

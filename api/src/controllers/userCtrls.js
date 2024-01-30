@@ -155,7 +155,7 @@ const updateProfilePicture = async (req, res, next) => {
                     filename = updatedUser.avatar;
                     updatedUser.avatar = "";
                     await updatedUser.save();
-                    fileRemover(filename);
+                    // fileRemover(filename);
                     res.json({
                         _id: updatedUser._id,
                         avatar: updatedUser.avatar,
