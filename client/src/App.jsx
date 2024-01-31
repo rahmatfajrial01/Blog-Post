@@ -19,6 +19,7 @@ import { PrivateRoutes } from './routing/privateRoutes'
 import { OpenRoutes } from './routing/openRoutes'
 import ListPostsUser from './pages/ListPostUser'
 import EditPost from './pages/EditPost'
+import Comment from './pages/Admin/Comment'
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
             <Route path='user' element={<User />} />
             <Route path='category' element={<Category />} />
             <Route path='list-post' element={<ListPost />} />
+            <Route path='comment' element={<Comment />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -18,6 +18,9 @@ const LeftNav = () => {
                 <Link to={'/admin/list-post'}>
                     <li className='hover:bg-white py-2 ps-2 pe-10 rounded-xl'>Post</li>
                 </Link>
+                <Link to={'/admin/comment'}>
+                    <li className='hover:bg-white py-2 ps-2 pe-10 rounded-xl'>comment </li>
+                </Link>
                 <Link to={'/'}>
                     <li className='hover:bg-white py-2 ps-2 pe-10 rounded-xl'>Back </li>
                 </Link>
