@@ -17,6 +17,13 @@ export const createComment = createAsyncThunk("comment/create", async (data, thu
         return thunkApi.rejectWithValue(error)
     }
 })
+export const updateCheckComment = createAsyncThunk("comment/update-check", async (data, thunkApi) => {
+    try {
+        return await commentService.updateCheckComment(data)
+    } catch (error) {
+        return thunkApi.rejectWithValue(error)
+    }
+})
 
 
 const initialState = {
@@ -58,6 +65,21 @@ export const postSliceCategories = createSlice({
                 state.commentCreated = action.payload;
             })
             .addCase(createComment.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+            })
+            .addCase(updateCheckComment.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updateCheckComment.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.commentCheckUpdated = action.payload;
+            })
+            .addCase(updateCheckComment.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;

@@ -17,7 +17,7 @@ const DetailCart = () => {
     const token = useSelector(state => state?.auth?.user?.token)
 
     // console.log('ini profile', profile)
-    console.log('ini comment', commentState.comments)
+    // console.log('ini comment', commentState.comments)
     // console.log('ini post', postState)
     const [url, setUrl] = useState(getUrl)
     const [pushComment, setPushComment] = useState("")
@@ -79,7 +79,7 @@ const DetailCart = () => {
                 </form>
                 <div className='space-y-3 bg-slate-100 rounded-xl'>
                     {
-                        commentState?.comments && commentState?.comments.filter(item => item?.post?._id === postState?.id).map((item, key) =>
+                        commentState?.comments && commentState?.comments.filter(item => item?.check === true).filter(item => item?.post?._id === postState?.id).map((item, key) =>
                             <div key={key} className='flex flex-col gap-2 p-2 '>
                                 <div className='flex gap-2 items-center'>
                                     {/* <CgProfile className='text-4xl' /> */}

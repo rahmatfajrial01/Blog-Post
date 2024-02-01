@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { createComment, getAllComments } = require('../controllers/commentCtrls');
-const { authGuard } = require('../middlewares/authMiddleware');
+const { createComment, getAllComments, updateStatusComment, } = require('../controllers/commentCtrls');
+const { authGuard, adminGuard } = require('../middlewares/authMiddleware');
 
 router.post("/", authGuard, createComment);
 router.get("/", getAllComments);
+router.put("/:id", authGuard, adminGuard, updateStatusComment);
 
 module.exports = router;
