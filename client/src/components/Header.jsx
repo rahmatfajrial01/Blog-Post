@@ -81,6 +81,9 @@ const Header = () => {
                                             <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/profile'}>Profile</Link>
                                         </Menu.Item>
                                         <Menu.Item>
+                                            <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/favorite'}>Favorite</Link>
+                                        </Menu.Item>
+                                        <Menu.Item>
                                             <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/list-post'}>Add Blog</Link>
                                         </Menu.Item>
                                         <Menu.Item>

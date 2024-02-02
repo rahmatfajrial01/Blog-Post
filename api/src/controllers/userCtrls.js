@@ -215,6 +215,52 @@ const google = async (req, res, next) => {
     }
 };
 
+const addToFavorite = async (req, res) => {
+    const { _id } = req.user
+    const { postId } = req.body
+    try {
+        const user = await User.findById(_id)
+        const alreadyadded = user.favorite.find((id) => id.toString() === postId)
+        if (alreadyadded) {
+            let user = await User.findByIdAndUpdate(
+                _id,
+                {
+                    $pull: { favorite: postId },
+                },
+                {
+                    new: true
+                }
+            )
+            res.json(user)
+        } else {
+            let user = await User.findByIdAndUpdate(
+                _id,
+                {
+                    $push: { favorite: postId },
+                },
+                {
+                    new: true
+                }
+            )
+            res.json(user)
+        }
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+const getFavorite = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    try {
+        const findUser = await User.findById(_id).populate({
+            path: 'favorite', populate: { path: 'user' }
+        });
+        res.json(findUser)
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
 module.exports = {
     registerUser,
     loginUser,
@@ -222,6 +268,8 @@ module.exports = {
     getAllUser,
     updateProfile,
     updateProfilePicture,
-    google
+    google,
+    addToFavorite,
+    getFavorite
 }
 

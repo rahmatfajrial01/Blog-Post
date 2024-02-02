@@ -5,6 +5,7 @@ import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllPosts, resetState } from '../features/post/postSlice';
 import { getAllPostCategories } from '../features/postCategory/postCategorySlice';
+import { getUserFavorite } from '../features/user2/userSlice';
 
 
 const Home = () => {
@@ -27,6 +28,12 @@ const Home = () => {
         dispatch(getAllPosts({ searchKeyword, page, limit, cat }))
         dispatch(getAllPostCategories())
     }, [limit, cat])
+
+    const token = useSelector(state => state?.auth?.user?.token)
+    const addedToFavorite = useSelector(state => state?.user?.addedToFavorite)
+    useEffect(() => {
+        dispatch(getUserFavorite(token))
+    }, [addedToFavorite])
 
     return (
         <>
@@ -64,9 +71,9 @@ const Home = () => {
                 <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5 mt-5'>
                     {
                         posts?.result && posts.result.map((item, key) => {
-
                             return <Cart
                                 key={key}
+                                _id={item?._id}
                                 title={item?.title}
                                 photo={item?.photo}
                                 createdAt={item?.createdAt}
@@ -74,7 +81,6 @@ const Home = () => {
                                 username={item?.user?.username}
                                 slug={item?.slug}
                             />
-
                         }
                         )
                     }

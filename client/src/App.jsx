@@ -20,6 +20,7 @@ import { OpenRoutes } from './routing/openRoutes'
 import ListPostsUser from './pages/ListPostUser'
 import EditPost from './pages/EditPost'
 import Comment from './pages/Admin/Comment'
+import Favorite from './pages/Favorite'
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
             <Route path='list-post' element={<PrivateRoutes><ListPostsUser /></PrivateRoutes>} />
             <Route path="post/:slug" element={<PrivateRoutes><EditPost /></PrivateRoutes>} />
             <Route path='post' element={<PrivateRoutes><Post /></PrivateRoutes>} />
+            <Route path='favorite' element={<PrivateRoutes><Favorite /></PrivateRoutes>} />
             <Route path='login' element={<OpenRoutes><Login /></OpenRoutes>} />
             <Route path='register' element={<OpenRoutes><Register /></OpenRoutes>} />
           </Route>

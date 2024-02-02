@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    favorite: [{ type: mongoose.Schema.ObjectId, ref: "Post" }],
 
 }, {
     timestamps: true
