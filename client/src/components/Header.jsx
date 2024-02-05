@@ -59,41 +59,45 @@ const Header = () => {
                             ?
                             <Link className='border-2  py-1 px-5 rounded-full border-white hover:text-black hover:bg-white transition-all' to={'/login'}>Login</Link>
                             :
-                            <div className='relative'>
-                                <Menu>
-                                    <Menu.Button className='flex items-center text-3xl h-9 w-9'>
-                                        {
-                                            profile?.avatar
-                                                ?
-                                                <img className='rounded-full object-cover h-9 w-9 border-2' src={profile?.avatar} alt="" />
-                                                :
-                                                <CgProfile />
-                                        }
-                                    </Menu.Button>
-                                    <Menu.Items className='absolute w-max bg-white text-black right-0 top-12 p-2 rounded-xl flex flex-col text-end border'>
-                                        {
-                                            profile?.admin &&
+                            authState?.user?.verified === false
+                                ?
+                                <Link className='border-2  py-1 px-5 rounded-full border-white hover:text-black hover:bg-white transition-all' to={'/login'}>Login</Link>
+                                :
+                                <div className='relative'>
+                                    <Menu>
+                                        <Menu.Button className='flex items-center text-3xl h-9 w-9'>
+                                            {
+                                                profile?.avatar
+                                                    ?
+                                                    <img className='rounded-full object-cover h-9 w-9 border-2' src={profile?.avatar} alt="" />
+                                                    :
+                                                    <CgProfile />
+                                            }
+                                        </Menu.Button>
+                                        <Menu.Items className='absolute w-max bg-white text-black right-0 top-12 p-2 rounded-xl flex flex-col text-end border'>
+                                            {
+                                                profile?.admin &&
+                                                <Menu.Item>
+                                                    <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/admin'}>Dashboard</Link>
+                                                </Menu.Item>
+                                            }
                                             <Menu.Item>
-                                                <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/admin'}>Dashboard</Link>
+                                                <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/profile'}>Profile</Link>
                                             </Menu.Item>
-                                        }
-                                        <Menu.Item>
-                                            <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/profile'}>Profile</Link>
-                                        </Menu.Item>
-                                        <Menu.Item>
-                                            <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/favorite'}>Favorite</Link>
-                                        </Menu.Item>
-                                        <Menu.Item>
-                                            <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/list-post'}>Add Blog</Link>
-                                        </Menu.Item>
-                                        <Menu.Item>
-                                            <Link to={'/'} className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all '
-                                                onClick={handleLogout}
-                                            >Logout</Link>
-                                        </Menu.Item>
-                                    </Menu.Items>
-                                </Menu>
-                            </div>
+                                            <Menu.Item>
+                                                <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/favorite'}>Favorite</Link>
+                                            </Menu.Item>
+                                            <Menu.Item>
+                                                <Link className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all' to={'/list-post'}>Add Blog</Link>
+                                            </Menu.Item>
+                                            <Menu.Item>
+                                                <Link to={'/'} className='hover:bg-slate-300 px-2 py-1 rounded-xl transition-all '
+                                                    onClick={handleLogout}
+                                                >Logout</Link>
+                                            </Menu.Item>
+                                        </Menu.Items>
+                                    </Menu>
+                                </div>
                     }
                 </div>
             </section >

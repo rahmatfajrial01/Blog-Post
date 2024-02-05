@@ -60,7 +60,15 @@ const DetailCart = () => {
                 <p className=''> {postState?.caption}     </p>
                 <div className='px-1 pb-1 flex justify-between items-center'>
                     <div className='w-10 flex items-center gap-1 '>
-                        <img className='border-2 w-10 h-10 object-cover rounded-full' src={postState?.user?.avatar} alt="" />
+                        {
+                            postState?.user?.avatar
+                                ?
+                                <img className='border-2 w-10 h-10 object-cover rounded-full' src={postState?.user?.avatar} alt="" />
+                                :
+                                <span>
+                                    <CgProfile className='text-4xl' />
+                                </span>
+                        }
                         <h1 >{postState?.user?.username}</h1>
                     </div>
                     <div>{postState?.createdAt}</div>

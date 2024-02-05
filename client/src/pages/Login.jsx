@@ -5,7 +5,7 @@ import Body from '../components/Body'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import * as yup from 'yup';
-import { loginUser } from '../features/user/userSlice'
+import { loginUser, resetState } from '../features/user/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import Oauth from '../components/Oauth'
@@ -39,7 +39,11 @@ const Login = () => {
     });
 
     useEffect(() => {
-        if (authState.user !== null && authState.isError === false) {
+        if (authState?.user?.verified === false) {
+            navigate(`/verification/${authState?.user?.slug}`)
+            dispatch(resetState())
+        }
+        else if (authState.user !== null && authState.isError === false) {
             localStorage.setItem("user", JSON.stringify({ token: authState.user.token }))
             navigate('/')
         }

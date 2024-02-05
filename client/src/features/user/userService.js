@@ -7,6 +7,18 @@ const register = async (userData) => {
         return response.data
     }
 }
+const createUser = async (userData) => {
+    const response = await axios.post(`${base_url}user/verif`, userData)
+    if (response.data) {
+        return response.data
+    }
+}
+const resentOtp = async (userData) => {
+    const response = await axios.post(`${base_url}user/resent-verif`, userData)
+    if (response.data) {
+        return response.data
+    }
+}
 const login = async (userData) => {
     const response = await axios.post(`${base_url}user/login`, userData)
     if (response.data) {
@@ -72,5 +84,7 @@ export const authService = {
     logout,
     updateUser,
     updateUserProfile,
-    google
+    google,
+    createUser,
+    resentOtp
 }

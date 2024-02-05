@@ -38,15 +38,10 @@ const Register = () => {
 
     useEffect(() => {
         if (authState.createdUser !== null && authState.isError === false) {
-            navigate('/login')
+            navigate(`/verification/${authState.createdUser.userId}`)
             dispatch(resetState())
         }
     }, [authState.createdUser])
-
-
-
-
-
 
     return (
         <Body   >

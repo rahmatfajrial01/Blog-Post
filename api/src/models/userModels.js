@@ -3,6 +3,10 @@ const { hash, compare } = require('bcryptjs')
 const { sign } = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
+    slug: {
+        type: String,
+        required: true,
+    },
     avatar: {
         type: String,
         default: ""
@@ -20,6 +24,10 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     admin: {
+        type: Boolean,
+        default: false
+    },
+    verified: {
         type: Boolean,
         default: false
     },

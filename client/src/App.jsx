@@ -21,6 +21,7 @@ import ListPostsUser from './pages/ListPostUser'
 import EditPost from './pages/EditPost'
 import Comment from './pages/Admin/Comment'
 import Favorite from './pages/Favorite'
+import Verification from './pages/Verification'
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
             <Route path='favorite' element={<PrivateRoutes><Favorite /></PrivateRoutes>} />
             <Route path='login' element={<OpenRoutes><Login /></OpenRoutes>} />
             <Route path='register' element={<OpenRoutes><Register /></OpenRoutes>} />
+            <Route path='verification/:userId' element={<OpenRoutes><Verification /></OpenRoutes>} />
           </Route>
           <Route path='/admin' element={<PrivateRoutes><SecondLayout /></PrivateRoutes>}>
             <Route index element={<Dashboard />} />

@@ -2,27 +2,125 @@ const asyncHandler = require('express-async-handler');
 const { uploadPicture } = require('../middlewares/uploadPicture');
 // const { uploadPicture } = require('../middlewares/uploadPictureMIddleware');
 const User = require("../models/userModels");
+const Verif = require("../models/verifModels");
 const { fileRemover } = require('../utils/fileRemover');
+const sendEmail = require('./emailCtrl');
+const { v4 } = require("uuid");
+
+
+// const registerUser = asyncHandler(async (req, res) => {
+//     const { username, email, password } = req.body;
+//     let user = await User.findOne({ email });
+//     if (!user) {
+//         user = await User.create({
+//             username,
+//             email,
+//             password,
+//         });
+//         return res.status(201).json({
+//             _id: user._id,
+//             avatar: user.avatar,
+//             username: user.username,
+//             email: user.email,
+//             admin: user.admin,
+//             token: await user.generateJWT(),
+//         });
+//     } else {
+//         throw new Error("user already axists")
+//     }
+// });
 
 const registerUser = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
     let user = await User.findOne({ email });
     if (!user) {
+        let slug = v4()
         user = await User.create({
+            slug,
             username,
             email,
             password,
         });
-        return res.status(201).json({
-            _id: user._id,
-            avatar: user.avatar,
-            username: user.username,
-            email: user.email,
-            admin: user.admin,
-            token: await user.generateJWT(),
+        let otp = `${Math.floor(1000 + Math.random() * 9000)}`
+        const activationUrl = `your code ${otp}`;
+        const data = {
+            to: email,
+            text: "hey User",
+            subject: "activation",
+            html: activationUrl
+        }
+
+        sendEmail(data)
+        let verif
+        verif = await Verif.create({
+            userId: slug,
+            otp,
+            email,
+        });
+        res.status(201).json({
+            email,
+            userId: verif.userId,
+            message: "please check email to activation account"
         });
     } else {
         throw new Error("user already axists")
+    }
+});
+
+const createUser = asyncHandler(async (req, res) => {
+    try {
+        const { userId, otp } = req.body
+        let findVerif = await Verif.findOne({ userId });
+        if (!findVerif) throw new Error("please requees new otp")
+        let user = await User.findOne({ email: findVerif.email });
+        if (user) {
+            if (findVerif.otp === otp) {
+                await User.updateOne({ email: user.email }, { verified: true });
+                await Verif.deleteMany({ userId });
+                return res.status(201).json({
+                    message: "user created"
+                });
+            } else {
+                throw new Error("wrong otp")
+            }
+        } else {
+            throw new Error("user already axists")
+        }
+    } catch (error) {
+        throw new Error(error)
+    }
+});
+
+const resetOtp = asyncHandler(async (req, res) => {
+    try {
+        const { userId } = req.body
+        let user = await User.findOne({ slug: userId });
+        if (user) {
+            let otp = `${Math.floor(1000 + Math.random() * 9000)}`
+            const activationUrl = `your code ${otp}`;
+            const data = {
+                to: user.email,
+                text: "hey User",
+                subject: "activation",
+                html: activationUrl
+            }
+            sendEmail(data)
+
+            await Verif.deleteMany({ userId });
+            let verif
+            verif = await Verif.create({
+                userId,
+                otp,
+                email: user.email,
+            });
+            return res.status(201).json({
+                message: "resent otp success"
+            });
+        } else {
+            throw new Error("user already axists")
+        }
+    } catch (error) {
+        throw new Error(error)
     }
 });
 
@@ -42,8 +140,8 @@ const loginUser = asyncHandler(async (req, res, next) => {
                 avatar: user.avatar,
                 username: user.username,
                 email: user.email,
-                // verified: user.verified,
-                // admin: user.admin,
+                verified: user.verified,
+                slug: user.slug,
                 token: await user.generateJWT(),
             });
         } else {
@@ -182,7 +280,7 @@ const google = async (req, res, next) => {
                 avatar: user.avatar,
                 username: user.username,
                 email: user.email,
-                // verified: user.verified,
+                verified: user.verified,
                 // admin: user.admin,
                 token: await user.generateJWT(),
             });
@@ -192,12 +290,14 @@ const google = async (req, res, next) => {
                 Math.random().toString(36).slice(-8);
             const hashedPassword = generatedPassword;
             const newUser = new User({
+                slug: v4(),
                 username:
                     req.body.name.split(' ').join('').toLowerCase() +
                     Math.random().toString(36).slice(-8),
                 email: req.body.email,
                 password: hashedPassword,
                 avatar: req.body.avatar,
+                verified: true,
             });
             await newUser.save();
             return res.status(201).json({
@@ -205,7 +305,7 @@ const google = async (req, res, next) => {
                 avatar: newUser.avatar,
                 username: newUser.username,
                 email: newUser.email,
-                // verified: newUser.verified,
+                verified: newUser.verified,
                 // admin: newUser.admin,
                 token: await newUser.generateJWT(),
             });
@@ -270,6 +370,8 @@ module.exports = {
     updateProfilePicture,
     google,
     addToFavorite,
-    getFavorite
+    getFavorite,
+    createUser,
+    resetOtp
 }
 

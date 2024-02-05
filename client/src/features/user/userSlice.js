@@ -9,6 +9,20 @@ export const registerUser = createAsyncThunk("auth/register", async (userData, t
         return thunkApi.rejectWithValue(error)
     }
 })
+export const createUser = createAsyncThunk("auth/create-user", async (userData, thunkApi) => {
+    try {
+        return await authService.createUser(userData)
+    } catch (error) {
+        return thunkApi.rejectWithValue(error)
+    }
+})
+export const resentOtp = createAsyncThunk("auth/resent-otp", async (userData, thunkApi) => {
+    try {
+        return await authService.resentOtp(userData)
+    } catch (error) {
+        return thunkApi.rejectWithValue(error)
+    }
+})
 
 export const loginUser = createAsyncThunk("auth/login", async (userData, thunkApi) => {
     try {
@@ -73,6 +87,7 @@ const initialState = {
     message: "",
     profile: "",
     allUser: "",
+    createdUserVerif: ""
 }
 
 export const authSlice = createSlice({
@@ -90,7 +105,7 @@ export const authSlice = createSlice({
                 state.isSuccess = true;
                 state.createdUser = action.payload;
                 if (state.isSuccess === true) {
-                    toast.info("User Created Successfully")
+                    toast.info("Verifie your email")
                 }
             })
             .addCase(registerUser.rejected, (state, action) => {
@@ -98,9 +113,52 @@ export const authSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
+                state.createdUserVerif = null;
                 if (state.isError === true) {
                     toast.error(action.payload.response.data.message)
                 }
+            })
+            .addCase(createUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(createUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.createdUserVerif = action.payload;
+                if (state.isSuccess === true) {
+                    toast.info("User Created Successfully")
+                }
+            })
+            .addCase(createUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+                if (state.isError === true) {
+                    toast.error(action.payload.response.data.message)
+                }
+            })
+            .addCase(resentOtp.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(resentOtp.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.resentOtp = action.payload;
+                if (state.isSuccess === true) {
+                    toast.info("resent otp Successfully")
+                }
+            })
+            .addCase(resentOtp.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.error;
+                // if (state.isError === true) {
+                //     toast.error(action.payload.response.data.message)
+                // }
             })
             .addCase(loginUser.pending, (state) => {
                 state.isLoading = true;
@@ -110,10 +168,12 @@ export const authSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.user = action.payload;
-                if (state.isSuccess === true) {
+                if (state.user.verified === true) {
                     // localStorage.setItem("user", JSON.stringify(action.payload))
                     toast.info("User Login Successfully")
-                }
+                } else (
+                    toast.info("verified your account")
+                )
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;
@@ -218,7 +278,11 @@ export const authSlice = createSlice({
                 //     toast.error(action.payload.response.data.message)
                 // }
             })
-            .addCase(resetState, () => initialState)
+            .addCase(resetState, (state) => {
+                state.user = null;
+                state.createdUser = null;
+                state.createdUserVerif = null;
+            })
     }
 })
 
