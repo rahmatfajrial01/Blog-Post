@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { getAllComments } from '../../features/comment/commentSlice'
 import { getAllPosts, resetState } from '../../features/post/postSlice'
 import { getAllPostCategories } from '../../features/postCategory/postCategorySlice'
 import { getAllUser } from '../../features/user2/userSlice'
@@ -10,6 +11,7 @@ const Dashboard = () => {
     const allUser = useSelector(state => state?.user?.allUser)
     const postCategory = useSelector(state => state?.postCategory?.postCategories)
     const posts = useSelector(state => state?.post?.posts)
+    const comments = useSelector(state => state?.comment?.comments)
     const searchKeyword = ''
     const page = ''
     const limit = ''
@@ -19,8 +21,8 @@ const Dashboard = () => {
         dispatch(getAllUser())
         dispatch(getAllPostCategories())
         dispatch(getAllPosts({ searchKeyword, page, limit, cat }))
+        dispatch(getAllComments())
     }, [])
-
 
     return (
         <section className=' bg-slate-50 w-full px-5 '>
@@ -48,6 +50,12 @@ const Dashboard = () => {
                     <span>Post</span>
                     <span className='px-3 bg-white rounded-md'>
                         {posts?.result?.length}
+                    </span>
+                </div>
+                <div className='bg-slate-200 w-full p-5 rounded-xl flex justify-between'>
+                    <span>Comment</span>
+                    <span className='px-3 bg-white rounded-md'>
+                        {comments?.length}
                     </span>
                 </div>
             </div>
