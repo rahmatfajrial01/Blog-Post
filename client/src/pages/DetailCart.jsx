@@ -53,11 +53,11 @@ const DetailCart = () => {
     };
 
     return (
-        <section className='flex justify-between container mx-auto my-5 gap-10 min-h-screen' >
-            <div className='w-3/4 space-y-2'>
-                <img className='rounded-xl h-96 object-cover w-full  ' src={stables + postState?.photo} alt="" />
+        <section className='flex lg:flex-row flex-col justify-between container mx-auto my-5 gap-10 min-h-screen px-5' >
+            <div className='lg:w-3/4 space-y-2'>
+                <img className='rounded-xl  object-cover w-full  ' src={stables + postState?.photo} alt="" />
                 <h1 className='font-semibold text-xl'>{postState?.title}</h1>
-                <p className=''> {postState?.caption}     </p>
+                <div dangerouslySetInnerHTML={{ __html: postState?.caption }}></div>
                 <div className='px-1 pb-1 flex justify-between items-center'>
                     <div className='w-10 flex items-center gap-1 '>
                         {
@@ -110,7 +110,7 @@ const DetailCart = () => {
                     }
                 </div>
             </div>
-            <div className='w-1/4 space-y-5'>
+            <div className='lg:w-1/4 space-y-5'>
                 {
                     posts?.result && posts?.result.map((item, key) =>
                         <Link

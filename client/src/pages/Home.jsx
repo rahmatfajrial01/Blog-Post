@@ -37,16 +37,16 @@ const Home = () => {
 
     return (
         <>
-            <div className='bg-black -mt-8'>
+            <div className='bg-black -mt-8 px-5'>
                 <div className='container mx-auto text-white min-h-[50vh]'>
                     <div className='flex'>
                         <div className=' md:w-1/2 min-h-[50vh] flex  justify-center items-center'>
-                            <div className='flex flex-col lg:gap-10 gap-10  md:gap-7 justify-center px-10 '>
-                                <h1 className='text-2xl font-semibold'>Welcome</h1>
+                            <div className='flex flex-col lg:gap-10 gap-5  md:gap-7 justify-center px-10 '>
+                                <h1 className='text-2xl font-semibold md:block hidden'>Welcome</h1>
                                 <p>Start your blog today and join a community of writers and readers who are passionate about sharing their stories and ideas. We offer everything you need to get starred, from helpful tips and tutorials</p>
-                                <div >
+                                <div>
                                     <span className='relative'>
-                                        <input placeholder='search' className=' text-black focus:outline-none py-1 ps-3 pe-8 w-4/5 rounded-2xl' type="text" />
+                                        <input placeholder='search' className=' text-black focus:outline-none py-1 ps-3 pe-8 md:w-4/5 w-full rounded-2xl' type="text" />
                                         <FaSearch className='absolute top-1 right-3 text-black' />
                                     </span>
                                 </div>
@@ -58,8 +58,17 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className='min-h-[50vh] container mx-auto'>
-                <div className='flex justify-between mt-5 '>
+            <div className='min-h-[50vh] container mx-auto px-5'>
+                <select className='md:hidden p-2 border-2 rounded-xl mt-5' onChange={(e) => setCat(e.target.value)} name="" id="">
+                    <option value="">All Category</option>
+                    {
+                        postCategories?.postCategories && postCategories?.postCategories.map((item, key) =>
+                            // <span className="cursor-pointer" onClick={() => setCat(item._id)} key={key}>{item?.title}</span>
+                            <option key={key} value={item._id}>{item?.title}</option>
+                        )
+                    }
+                </select>
+                <div className='md:flex justify-between mt-5 hidden'>
                     <span onClick={() => { setCat(""), setLimit(4) }} className="cursor-pointer">All</span>
                     {
                         postCategories?.postCategories && postCategories?.postCategories.map((item, key) =>

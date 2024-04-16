@@ -73,7 +73,7 @@ const Post = () => {
     }, [postCreated])
 
     return (
-        <section className='pt-5'>
+        <section className='pt-5 px-5'>
             <Body>
                 <div>
                     <form className='space-y-3 mt-3' onSubmit={formik.handleSubmit} encType="multipart/form-data">

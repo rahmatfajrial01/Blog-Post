@@ -16,9 +16,9 @@ const Favorite = () => {
         dispatch(getUserFavorite(token))
     }, [addedToFavorite])
     return (
-        <section>
+        <section className='px-5'>
             <Body>
-                <div className='flex justify-center font-semibold text-xl mt-5'>
+                <div className='flex justify-center font-semibold text-xl mt-5 '>
                     {userFavorite?.favorite.length > 0
                         ?
                         <h1>Favorite</h1>

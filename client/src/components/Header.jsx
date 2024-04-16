@@ -31,7 +31,7 @@ const Header = () => {
     }, [userState?.token])
 
     return (
-        <header className='bg-black text-white sticky top-0 z-50'>
+        <header className='bg-black text-white sticky top-0 z-50 px-5'>
             <section className='container mx-auto py-3 flex justify-between items-center'>
                 <div className='text-3xl font-bold '>
                     <Link to={'/'}>BlogPost.</Link>
@@ -39,10 +39,10 @@ const Header = () => {
 
                 <div className='space-x-10 font-semibold flex items-center'>
                     {/* <Link to={'/login'}>Login</Link> */}
-                    <span className='hover:opacity-85 hover:underline-offset-4 hover:underline transition-all cursor-pointer'>Home</span>
-                    <span className='hover:opacity-85 hover:underline-offset-4 hover:underline transition-all cursor-pointer'>About</span>
-                    <span className='hover:opacity-85 hover:underline-offset-4 hover:underline transition-all cursor-pointer'>Service</span>
-                    <span className='hover:opacity-85 hover:underline-offset-4 hover:underline transition-all cursor-pointer'>Contact</span>
+                    <span className='hover:opacity-85 hover:underline-offset-4 hover:underline transition-all cursor-pointer hidden md:block'>Home</span>
+                    <span className='hover:opacity-85 hover:underline-offset-4 hover:underline transition-all cursor-pointer hidden md:block'>About</span>
+                    <span className='hover:opacity-85 hover:underline-offset-4 hover:underline transition-all cursor-pointer hidden md:block'>Service</span>
+                    <span className='hover:opacity-85 hover:underline-offset-4 hover:underline transition-all cursor-pointer hidden md:block'>Contact</span>
                     {/* <Link className='border-2  py-1 px-5 rounded-full border-white hover:text-black hover:bg-white transition-all' to={'/admin'}>Admin</Link> */}
                     {/* <div onClick={() => { setIsOpen((prev) => !prev) }} className='relative group'>
                         <div className='text-3xl flex  items-center ' ><CgProfile /></div>

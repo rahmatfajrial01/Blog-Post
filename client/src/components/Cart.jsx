@@ -23,13 +23,13 @@ const Cart = (props) => {
     // const favoriteClick = userFavorite?.favorite && userFavorite?.favorite.filter((item) => item?._id === _id).length
 
     return (
-        <div className='relative border-2 rounded-xl hover:shadow-lg overflow-hidden group transition-all'>
+        <div className='relative border-2 rounded-xl hover:shadow-lg overflow-hidden group transition-all flex flex-col justify-between pb-2'>
             <Link to={`/${slug}`}>
-                <img className='rounded-t-xl w-full ' src={stables + photo} alt="" />
-                <h1 className='p-1'>{title}</h1>
+                <img className='rounded-t-xl w-full md:h-56 h-32 object-cover' src={stables + photo} alt="" />
+                <p className='line-clamp-2 m-2 font-semibold'>{title}</p>
             </Link>
-            <div className='px-1 pb-1 flex justify-between items-center'>
-                <div className='w-10 flex items-center gap-1 '>
+            <div className='px-2 pb-1 flex justify-between items-center h-10 bg-white'>
+                <div className='w-2/3 flex items-center gap-1 '>
                     {
                         avatar ?
                             <img className='border-2 rounded-full w-10 h-10 object-cover' src={avatar} alt="" />
@@ -38,10 +38,11 @@ const Cart = (props) => {
                                 <CgProfile className='text-4xl' />
                             </span>
                     }
-                    <h1>{username}</h1>
+                    <h1 className='truncate'>{username}</h1>
                 </div>
-                <div>{new Date(createdAt).getDate()} {" "}
-                    {new Date(createdAt).toLocaleString("default", { month: "long" })}</div>
+                <div className='w-1/3 text-end text-nowrap truncate'>{new Date(createdAt).getDate()} {" "}
+                    {new Date(createdAt).toLocaleString("default", { month: "long" })}
+                </div>
             </div>
             <div onClick={() => addFavorite(_id)} className='bg-white p-1 rounded-full absolute -right-9 group-hover:right-3 top-3  transition-all cursor-pointer'>
                 {userFavorite?.favorite && userFavorite?.favorite.filter((item) => item?._id === _id).length === 1 ? <FaHeart className='text-xl text-red-500' /> : <FaHeart className='text-xl ' />}
